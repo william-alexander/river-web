@@ -8,8 +8,8 @@ body {
 	display: -webkit-flex;
 	display: flex;
 
-	-webkit-flex-direction: column;
-	flex-direction: column;
+	-webkit-flex-direction: column-reverse;
+	flex-direction: column-reverse;
 
 	font-family: sans-serif;
 	margin: 0;
@@ -26,7 +26,7 @@ body, .search {
 	border: none;
 	display: block;
 	outline: none;
-	z-index: 1;
+	z-index: 999;
 }
 
 .search, .control {
