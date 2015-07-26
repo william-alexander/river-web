@@ -43,7 +43,8 @@ body, .search {
 	-webkit-flex: 1;
 	flex: 1;
 
-	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	overflow-y: scroll;
 }
 
 .song {
