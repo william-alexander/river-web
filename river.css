@@ -26,15 +26,16 @@ body, .search {
 	border: none;
 	display: block;
 	outline: none;
-	z-index: 999;
-}
-
-.search, .control {
-	box-shadow: 0 0 10px #ccc;
+	position: relative;
+	z-index: 0;
 }
 
 .search, .song, .control {
 	padding: 10px;
+}
+
+.search, .control {
+	box-shadow: 0 0 10px #eee;
 }
 
 .songs {
