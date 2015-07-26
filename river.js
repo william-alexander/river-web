@@ -31,22 +31,22 @@ function load(target) {
 	mp3SourceElem.setAttribute("src", streamURLPrefix + "mp3");
 	var newAudioElem = document.createElement("audio");
 	newAudioElem.id = "audio";
-	newAudioElem.setAttribute("autoplay", "");
 	newAudioElem.appendChild(opusSourceElem);
 	newAudioElem.appendChild(mp3SourceElem);
 
 	newAudioElem.oncanplay = function() {
 		controlElem.classList.remove("loading");
 
-		newAudioElem.onpause = function() {
-			controlElem.classList.remove("playing");
-			controlElem.classList.add("paused");
-		}
+	}
 
-		newAudioElem.onplay = function() {
-			controlElem.classList.remove("paused");
-			controlElem.classList.add("playing");
-		}
+	newAudioElem.onpause = function() {
+		controlElem.classList.remove("playing");
+		controlElem.classList.add("paused");
+	}
+
+	newAudioElem.onplay = function() {
+		controlElem.classList.remove("paused");
+		controlElem.classList.add("playing");
 	}
 
 	controlElem.onclick = function() {
@@ -63,6 +63,7 @@ function load(target) {
 
 	controlElem.replaceChild(newAudioElem, audioElem);
 	audioElem = newAudioElem;
+	audioElem.play();
 }
 
 ajax("GET", songsURL, function(responseText) {
