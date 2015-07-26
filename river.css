@@ -79,8 +79,20 @@ body, .search {
 }
 
 .control.loading {
-	background: #f5c9c9;
+	-webkit-animation: pulse 1s ease infinite;
 	animation: pulse 1s ease infinite;
+}
+
+@-webkit-keyframes pulse {
+	0% {
+		background: white;
+	}
+	50% {
+		background: #eee;
+	}
+	100% {
+		background: white;
+	}
 }
 
 @keyframes pulse {
