@@ -1,0 +1,55 @@
+﻿body {
+	background: #eee;
+	cursor: default;
+	font-family: sans-serif;
+	margin: 0;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.hidden {
+	display: none;
+}
+
+.tag {
+	color: grey;
+	font-size: 14px;
+}
+
+.title {
+	color: black;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.control, .song {
+	padding: 10px;
+}
+
+.control {
+	background: blue;
+	bottom: 0;
+	box-shadow: 0 0 10px #ccc;
+	position: fixed;
+	width: 100%;
+}
+
+.control.loading {
+	background: #f5c9c9;
+}
+
+.control.paused:not(.loading) {
+	background: #f5f4c9;
+}
+
+.control.playing {
+	background: #dff5c9;
+}
+
+.song {
+	background: white;
+}
+
+.song:not(:last-child) {
+	margin-bottom: 2px;
+}
