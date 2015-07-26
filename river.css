@@ -26,7 +26,7 @@ body, .search {
 	border: none;
 	display: block;
 	outline: none;
-	z-index: 0;
+	z-index: 1;
 }
 
 .search, .control {
@@ -38,11 +38,12 @@ body, .search {
 }
 
 .songs {
+	background: #eee;
+
 	-webkit-flex: 1;
 	flex: 1;
 
-	overflow-y: scroll;
-	background: #eee;
+	overflow-y: auto;
 }
 
 .song {
