@@ -1,4 +1,10 @@
-﻿var server = "http://" + decodeURIComponent(window.location.href.split("?")[1]);
+﻿var split = window.location.href.split("?");
+
+if (window.location.protocol == "https:" || split.length < 2) {
+	window.location = "https://github.com/william-alexander/river-web#usage";
+}
+
+var server = "http://" + decodeURIComponent(split[1]);
 var songsURL = server + "/songs";
 var matches = [];
 var controlElem = document.getElementById("control");
