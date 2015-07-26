@@ -35,7 +35,7 @@ body, .search {
 }
 
 .search, .control {
-	box-shadow: 0 0 10px #eee;
+	box-shadow: 0 0 10px grey;
 }
 
 .songs {
