@@ -1,55 +1,95 @@
-﻿body {
-	background: #eee;
+﻿html, body {
+	height: 100%;
+}
+
+body {
 	cursor: default;
+
+	display: -webkit-flex;
+	display: flex;
+
+	-webkit-flex-direction: column;
+	flex-direction: column;
+
 	font-family: sans-serif;
 	margin: 0;
+
 	-webkit-user-select: none;
 	user-select: none;
 }
 
-.hidden {
-	display: none;
-}
-
-.tag {
-	color: grey;
-	font-size: 14px;
-}
-
-.title {
-	color: black;
+body, .search {
 	font-size: 16px;
-	font-weight: bold;
 }
 
-.control, .song {
+.search {
+	border: none;
+	display: block;
+	outline: none;
+	z-index: 0;
+}
+
+.search, .control {
+	box-shadow: 0 0 10px #ccc;
+}
+
+.search, .song, .control {
 	padding: 10px;
 }
 
-.control {
-	background: white;
-	bottom: 0;
-	box-shadow: 0 0 10px #ccc;
-	position: fixed;
-	width: 100%;
-}
-
-.control.loading {
-	background: #f5c9c9;
-}
-
-.control.paused:not(.loading) {
-	background: #f5f4c9;
-}
-
-.control.playing {
-	background: #dff5c9;
+.songs {
+	flex: 1;
+	overflow-y: scroll;
+	background: #eee;
 }
 
 .song {
 	background: white;
 }
 
-.song:not(:last-child) {
-	margin-bottom: 2px;
+.song:not(:first-child) {
+	margin-top: 2px;
+}
+
+.songs.searching > :not(.match) {
+	display: none;
+}
+
+.tag:not(.title) {
+	color: grey;
+	font-size: 14px;
+}
+
+.title {
+	color: black;
+	font-weight: bold;
+}
+
+.control:not(.loading) {
+	cursor: pointer;
+}
+
+.control:not(.loading):not(.playing):not(.paused) {
+	display: none;
+}
+
+.control.loading {
+	background: #f5c9c9;
+	animation: pulse 1s ease infinite;
+}
+
+@keyframes pulse {
+	0% {
+		background: white;
+	}
+	50% {
+		background: #eee;
+	}
+	100% {
+		background: white;
+	}
+}
+
+.control.paused:not(.loading) {
+	background: #eee;
 }

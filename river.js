@@ -1,9 +1,12 @@
 ﻿var server = "http://" + decodeURIComponent(window.location.href.split("?")[1]);
 var songsURL = server + "/songs";
+var matches = [];
 var controlElem = document.getElementById("control");
 var audioElem = document.getElementById("audio");
 var titleElem = document.getElementById("title");
+var albumElem = document.getElementById("album");
 var artistElem = document.getElementById("artist");
+var searchElem = document.getElementById("search");
 var songsElem = document.getElementById("songs");
 
 function ajax(method, url, callback) {
@@ -22,8 +25,9 @@ function load(e) {
 	controlElem.classList.remove("hidden");
 	controlElem.classList.add("loading");
 	var streamURLPrefix = songsURL + "/" + e.currentTarget.dataset.id + ".";
-
+	document.title = e.currentTarget.dataset.artist + " - " + e.currentTarget.dataset.title;
 	titleElem.textContent = e.currentTarget.dataset.title;
+	albumElem.textContent = e.currentTarget.dataset.album;
 	artistElem.textContent = e.currentTarget.dataset.artist;
 	var opusSourceElem = document.createElement("source");
 	opusSourceElem.setAttribute("src", streamURLPrefix + "opus");
@@ -49,6 +53,8 @@ function load(e) {
 	}
 
 	controlElem.onclick = function() {
+		if (audioElem.readyState != 4) return;
+
 		if (audioElem.paused) {
 			audioElem.play();
 		} else {
@@ -82,6 +88,7 @@ ajax("GET", songsURL, function(responseText) {
 		songElem.classList.add("song");
 		songElem.dataset.id = songs[i].id;
 		songElem.dataset.artist = songs[i].artist;
+		songElem.dataset.album = songs[i].album;
 		songElem.dataset.title = songs[i].title;
 		songElem.appendChild(titleElem);
 		songElem.appendChild(artistElem);
@@ -90,3 +97,32 @@ ajax("GET", songsURL, function(responseText) {
 		songsElem.appendChild(songElem);
 	}
 });
+
+function match(elem, key, query) {
+	return elem.dataset[key].toLowerCase().indexOf(query) != -1;
+}
+
+searchElem.oninput = function(e) {
+	for (var i = 0; i < matches.length; ++i) {
+		matches[i].classList.remove("match");
+	}
+
+	if (e.currentTarget.value == "") {
+		songsElem.classList.remove("searching");
+		return;
+	}
+
+	var query = e.currentTarget.value.toLowerCase()
+
+	matches = [].filter.call(songsElem.children, function(elem) {
+		return match(elem, "title", query) ||
+			match(elem, "artist", query) ||
+			match(elem, "album", query);
+	});
+
+	for (var i = 0; i < matches.length; ++i) {
+		matches[i].classList.add("match");
+	}
+
+	songsElem.classList.add("searching");
+};
