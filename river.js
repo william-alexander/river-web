@@ -18,13 +18,13 @@ function ajax(method, url, callback) {
 	req.send();
 }
 
-function load(target) {
+function load(e) {
 	controlElem.classList.remove("hidden");
 	controlElem.classList.add("loading");
-	var streamURLPrefix = songsURL + "/" + target.dataset.id + ".";
+	var streamURLPrefix = songsURL + "/" + e.currentTarget.dataset.id + ".";
 
-	titleElem.textContent = target.dataset.title;
-	artistElem.textContent = target.dataset.artist;
+	titleElem.textContent = e.currentTarget.dataset.title;
+	artistElem.textContent = e.currentTarget.dataset.artist;
 	var opusSourceElem = document.createElement("source");
 	opusSourceElem.setAttribute("src", streamURLPrefix + "opus");
 	var mp3SourceElem = document.createElement("source");
@@ -58,7 +58,7 @@ function load(target) {
 	}
 
 	newAudioElem.onended = function() {
-		load(target.nextSibling);
+		load(e.currentTarget.nextSibling);
 	}
 
 	controlElem.replaceChild(newAudioElem, audioElem);
@@ -87,9 +87,7 @@ ajax("GET", songsURL, function(responseText) {
 		songElem.appendChild(titleElem);
 		songElem.appendChild(artistElem);
 		songElem.appendChild(albumElem);
-		songElem.onclick = function(e) {
-			load(e.currentTarget);
-		}
+		songElem.onclick = load;
 		songsElem.appendChild(songElem);
 	}
 });
