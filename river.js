@@ -28,7 +28,7 @@ function load(target) {
 	var opusSourceElem = document.createElement("source");
 	opusSourceElem.setAttribute("src", streamURLPrefix + "opus");
 	var mp3SourceElem = document.createElement("source");
-	mp3SourceElem.setAttribute("src", streamURLPrefix + ".mp3");
+	mp3SourceElem.setAttribute("src", streamURLPrefix + "mp3");
 	var newAudioElem = document.createElement("audio");
 	newAudioElem.id = "audio";
 	newAudioElem.setAttribute("autoplay", "");
