@@ -36,7 +36,6 @@ function load(e) {
 
 	newAudioElem.oncanplay = function() {
 		controlElem.classList.remove("loading");
-
 	}
 
 	newAudioElem.onpause = function() {
@@ -44,7 +43,7 @@ function load(e) {
 		controlElem.classList.add("paused");
 	}
 
-	newAudioElem.onplay = function() {
+	newAudioElem.onplaying = function() {
 		controlElem.classList.remove("paused");
 		controlElem.classList.add("playing");
 	}
