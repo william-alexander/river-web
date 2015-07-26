@@ -38,7 +38,9 @@ body, .search {
 }
 
 .songs {
+	-webkit-flex: 1;
 	flex: 1;
+
 	overflow-y: scroll;
 	background: #eee;
 }
