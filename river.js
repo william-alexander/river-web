@@ -59,7 +59,7 @@ function load(e) {
 	}
 
 	controlElem.onclick = function() {
-		if (audioElem.readyState != 4) return;
+		if (controlElem.classList.contains("loading")) return;
 
 		if (audioElem.paused) {
 			audioElem.play();
