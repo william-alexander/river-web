@@ -124,16 +124,15 @@ searchElem.oninput = function(e) {
 
 	var query = e.currentTarget.value.toLowerCase()
 
-	matches = [].filter.call(songsElem.children, function(elem) {
-		var song = songs[elem.dataset.index];
+	for (var i = 0; i < songElems.length; ++i) {
+		var song = songs[i];
 
-		return match(song, "title", query) ||
+		if (match(song, "title", query) ||
 			match(song, "artist", query) ||
-			match(song, "album", query);
-	});
-
-	for (var i = 0; i < matches.length; ++i) {
-		matches[i].classList.add("match");
+			match(song, "album", query)) {
+			songElems[i].classList.add("match");
+			matches.push(songElems[i]);
+		}
 	}
 
 	songsElem.classList.add("searching");
