@@ -110,16 +110,30 @@ function match(song, key, query) {
 	return song[key].toLowerCase().indexOf(query) != -1;
 }
 
-searchElem.oninput = function(e) {
-	songsElem.scrollTop = 0;
+var wasEmpty = true;
+var scrollTop = 0;
 
-	for (var i = 0; i < matches.length; ++i) {
-		matches[i].classList.remove("match");
+searchElem.oninput = function(e) {
+	var isEmpty = e.currentTarget.value == "";
+
+	if (wasEmpty && isEmpty) {
+		return;
 	}
 
-	if (e.currentTarget.value == "") {
+	if (isEmpty) {
 		songsElem.classList.remove("searching");
+		songsElem.scrollTop = scrollTop;
+		wasEmpty = true;
 		return;
+	}
+
+	if (wasEmpty) {
+		scrollTop = songsElem.scrollTop;
+		wasEmpty = false;
+	}
+	
+	for (var i = 0; i < matches.length; ++i) {
+		matches[i].classList.remove("match");
 	}
 
 	var query = e.currentTarget.value.toLowerCase()
