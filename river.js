@@ -7,9 +7,12 @@ if (window.location.protocol == "https:" || split.length < 2) {
 var server = "http://" + decodeURIComponent(split[1]);
 var songsURL = server + "/songs";
 var songs = [];
+var songElems = [];
 var matches = [];
 var controlElem = document.getElementById("control");
 var audioElem = document.getElementById("audio");
+var opusSourceElem = document.getElementById("opus");
+var mp3SourceElem = document.getElementById("mp3");
 var titleElem = document.getElementById("title");
 var albumElem = document.getElementById("album");
 var artistElem = document.getElementById("artist");
@@ -28,56 +31,49 @@ function ajax(method, url, callback) {
 	req.send();
 }
 
-function load(e) {
+audioElem.oncanplay = function() {
+	controlElem.classList.remove("loading");
+}
+
+audioElem.onpause = function() {
+	controlElem.classList.remove("playing");
+	controlElem.classList.add("paused");
+}
+	
+audioElem.onplaying = function() {
+	controlElem.classList.remove("paused");
+	controlElem.classList.add("playing");
+}
+
+controlElem.onclick = function() {
+	if (controlElem.classList.contains("loading")) return;
+
+	if (audioElem.paused) {
+		audioElem.play();
+	} else {
+		audioElem.pause();
+	}
+}
+
+function load(index) {
 	controlElem.classList.remove("hidden");
 	controlElem.classList.add("loading");
-	var song = songs[e.currentTarget.dataset.index];
+	var song = songs[index];
 	var streamURLPrefix = songsURL + "/" + song.id + ".";
 	document.title = song.title;
 	titleElem.textContent = song.title;
 	albumElem.textContent = song.album;
 	artistElem.textContent = song.artist;
-	var opusSourceElem = document.createElement("source");
-	opusSourceElem.setAttribute("src", streamURLPrefix + "opus");
-	var mp3SourceElem = document.createElement("source");
-	mp3SourceElem.setAttribute("src", streamURLPrefix + "mp3");
-	var newAudioElem = document.createElement("audio");
-	newAudioElem.id = "audio";
-	newAudioElem.appendChild(opusSourceElem);
-	newAudioElem.appendChild(mp3SourceElem);
+	opusSourceElem.src = streamURLPrefix + "opus";
+	mp3SourceElem.src = streamURLPrefix + "mp3";
 
-	newAudioElem.oncanplay = function() {
-		controlElem.classList.remove("loading");
+	audioElem.onended = function() {
+		var nextIndex = index+1;
+		if (nextIndex >= songs.length) return;
+		load(nextIndex);
 	}
 
-	newAudioElem.onpause = function() {
-		controlElem.classList.remove("playing");
-		controlElem.classList.add("paused");
-	}
-
-	newAudioElem.onplaying = function() {
-		controlElem.classList.remove("paused");
-		controlElem.classList.add("playing");
-	}
-
-	controlElem.onclick = function() {
-		if (controlElem.classList.contains("loading")) return;
-
-		if (audioElem.paused) {
-			audioElem.play();
-		} else {
-			audioElem.pause();
-		}
-	}
-
-	var nextSibling = e.currentTarget.nextSibling;
-
-	newAudioElem.onended = function() {
-		nextSibling.dispatchEvent(new Event("click"));
-	}
-
-	controlElem.replaceChild(newAudioElem, audioElem);
-	audioElem = newAudioElem;
+	audioElem.load();
 	audioElem.play();
 }
 
@@ -100,7 +96,12 @@ ajax("GET", songsURL, function(responseText) {
 		songElem.appendChild(titleElem);
 		songElem.appendChild(artistElem);
 		songElem.appendChild(albumElem);
-		songElem.onclick = load;
+
+		songElem.onclick = function(e) {
+			load(parseInt(e.currentTarget.dataset.index));
+		}
+
+		songElems.push(songElem);
 		songsElem.appendChild(songElem);
 	}
 });
