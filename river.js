@@ -109,6 +109,8 @@ function match(elem, key, query) {
 }
 
 searchElem.oninput = function(e) {
+	songsElem.scrollTop = 0;
+
 	for (var i = 0; i < matches.length; ++i) {
 		matches[i].classList.remove("match");
 	}
