@@ -61,8 +61,12 @@ body, .search {
 	background: white;
 }
 
-.song:not(:last-child) {
+.songs > * {
 	margin-bottom: 2px;
+}
+
+.songs > :last-child {
+	margin-bottom: 0px;
 }
 
 .songs.searching > :not(.match) {
