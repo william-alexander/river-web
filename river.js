@@ -121,16 +121,18 @@ searchElem.oninput = function(e) {
 	}
 
 	if (isEmpty) {
+		wasEmpty = true;
 		songsElem.classList.remove("searching");
 		songsElem.scrollTop = scrollTop;
-		wasEmpty = true;
 		return;
 	}
 
 	if (wasEmpty) {
-		scrollTop = songsElem.scrollTop;
 		wasEmpty = false;
+		scrollTop = songsElem.scrollTop;
 	}
+
+	songsElem.scrollTop = 0;
 	
 	for (var i = 0; i < matches.length; ++i) {
 		matches[i].classList.remove("match");
