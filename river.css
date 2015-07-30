@@ -73,6 +73,10 @@ body, .search {
 	display: none;
 }
 
+.tag {
+	overflow: hidden;
+}
+
 .tag:not(.title) {
 	color: grey;
 	font-size: 14px;
