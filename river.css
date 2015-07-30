@@ -75,6 +75,8 @@ body, .search {
 
 .tag {
 	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .tag:not(.title) {
@@ -104,9 +106,11 @@ body, .search {
 	0% {
 		background: white;
 	}
+
 	50% {
 		background: #ddd;
 	}
+
 	100% {
 		background: white;
 	}
@@ -116,9 +120,11 @@ body, .search {
 	0% {
 		background: white;
 	}
+
 	50% {
 		background: #ddd;
 	}
+
 	100% {
 		background: white;
 	}
