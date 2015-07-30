@@ -55,15 +55,24 @@ controlElem.onclick = function() {
 	}
 }
 
+function displayTag(key, song) {
+	if (key == "title") {
+		return song.title == "" ? song.path : song.title;
+	}
+
+	var val = song[key];
+	return val == "" ? "-" : val;
+}
+
 function load(index) {
 	controlElem.classList.remove("hidden");
 	controlElem.classList.add("loading");
 	var song = songs[index];
 	var streamURLPrefix = songsURL + "/" + song.id + ".";
 	document.title = song.title;
-	titleElem.textContent = song.title;
-	albumElem.textContent = song.album;
-	artistElem.textContent = song.artist;
+	titleElem.textContent = displayTag("title", song);
+	artistElem.textContent = displayTag("artist", song);
+	albumElem.textContent = displayTag("album", song);
 	opusSourceElem.src = streamURLPrefix + "opus";
 	mp3SourceElem.src = streamURLPrefix + "mp3";
 
@@ -77,25 +86,19 @@ function load(index) {
 	audioElem.play();
 }
 
-function markIfEmpty(tag) {
-	return tag == "" ? "-" : tag;
-}
-
 ajax("GET", songsURL, function(responseText) {
 	songs = JSON.parse(responseText);
 
 	for (var i = 0; i < songs.length; ++i) {
 		var titleElem = document.createElement("div");
 		titleElem.classList.add("title", "tag");
-		titleElem.textContent = songs[i].title == "" ?
-			songs[i].path :
-			songs[i].title;
+		titleElem.textContent = displayTag("title", songs[i]);
 		var artistElem = document.createElement("div");
 		artistElem.classList.add("tag");
-		artistElem.textContent = markIfEmpty(songs[i].artist);
+		artistElem.textContent = displayTag("artist", songs[i]);
 		var albumElem = document.createElement("div");
 		albumElem.classList.add("tag");
-		albumElem.textContent = markIfEmpty(songs[i].album);
+		albumElem.textContent = displayTag("album", songs[i]);
 		var songElem = document.createElement("div");
 		songElem.classList.add("song");
 		songElem.dataset.index = i;
