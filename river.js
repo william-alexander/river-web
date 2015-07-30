@@ -77,19 +77,25 @@ function load(index) {
 	audioElem.play();
 }
 
+function markIfEmpty(tag) {
+	return tag == "" ? "-" : tag;
+}
+
 ajax("GET", songsURL, function(responseText) {
 	songs = JSON.parse(responseText);
 
 	for (var i = 0; i < songs.length; ++i) {
 		var titleElem = document.createElement("div");
 		titleElem.classList.add("title", "tag");
-		titleElem.textContent = songs[i].title;
+		titleElem.textContent = songs[i].title == "" ?
+			songs[i].path :
+			songs[i].title;
 		var artistElem = document.createElement("div");
 		artistElem.classList.add("tag");
-		artistElem.textContent = songs[i].artist
+		artistElem.textContent = markIfEmpty(songs[i].artist);
 		var albumElem = document.createElement("div");
 		albumElem.classList.add("tag");
-		albumElem.textContent = songs[i].album;
+		albumElem.textContent = markIfEmpty(songs[i].album);
 		var songElem = document.createElement("div");
 		songElem.classList.add("song");
 		songElem.dataset.index = i;
