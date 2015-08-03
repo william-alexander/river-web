@@ -24,8 +24,7 @@ body, .search {
 	font-size: 16px;
 }
 
-.nav, .control {
-	background: white;
+.aside {
 	box-shadow: 0 0 2vh #aaa;
 	z-index: 1;
 }
@@ -35,7 +34,7 @@ body, .search {
 	display: flex;
 }
 
-.search, .song, .control {
+.search, .song {
 	padding: 10px;
 }
 
@@ -50,6 +49,10 @@ body, .search {
 	display: block;
 	outline: none;
 	margin: 0;
+}
+
+.reload, .song {
+	cursor: pointer;
 }
 
 .reload {
@@ -105,8 +108,8 @@ body, .search {
 	font-weight: bold;
 }
 
-.control:not(.loading) {
-	cursor: pointer;
+.control.loading) {
+	cursor: default;
 }
 
 .control:not(.loading):not(.playing):not(.paused) {
