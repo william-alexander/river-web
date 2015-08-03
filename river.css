@@ -57,6 +57,7 @@ body, .search {
 	background: #ddd;
 	border: none;
 	font-size: 20px;
+	margin: none;
 	outline: none;
 	padding-left: 10px;
 	padding-right: 10px;
