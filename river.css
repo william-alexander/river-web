@@ -118,7 +118,7 @@ body, .search {
 
 .control.loading {
 	-webkit-animation: pulse 1s ease infinite;
-	animation: pulse 1s ease infinite;
+	animation: pulse 1s ease-in-out infinite;
 }
 
 @-webkit-keyframes pulse {
