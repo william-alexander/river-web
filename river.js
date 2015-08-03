@@ -87,7 +87,7 @@ function load(index) {
 	audioElem.play();
 }
 
-function load(songsJSON) {
+function populate(songsJSON) {
 	songs = JSON.parse(songsJSON);
 
 	while (songsElem.firstChild) {
@@ -120,7 +120,7 @@ function load(songsJSON) {
 	}
 }
 
-ajax("GET", songsURL, load);
+ajax("GET", songsURL, populate);
 
 function match(song, key, query) {
 	return song[key].toLowerCase().indexOf(query) != -1;
@@ -171,5 +171,5 @@ searchElem.oninput = function(e) {
 };
 
 reloadElem.onclick = function() {
-	ajax("PUT", songsURL, load);
+	ajax("PUT", songsURL, populate);
 }
