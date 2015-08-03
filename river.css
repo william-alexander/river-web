@@ -24,11 +24,23 @@ body, .search {
 	font-size: 16px;
 }
 
-.search, .control {
+.nav, .control {
 	background: white;
+	box-shadow: 0 0 2vh #aaa;
+	z-index: 1;
+}
+
+.nav {
+	display: -webkit-flex;
+	display: flex;
+}
+
+.search, .song, .control {
+	padding: 10px;
 }
 
 .search {
+	flex: auto;
 	-webkit-appearance: none;
 	box-sizing: border-box;
 	border-radius: 0;
@@ -38,13 +50,13 @@ body, .search {
 	margin: 0;
 }
 
-.search, .song, .control {
-	padding: 10px;
-}
-
-.search, .control {
-	box-shadow: 0 0 2vh #aaa;
-	z-index: 1;
+.reload {
+	-webkit-appearance: none;
+	border: none;
+	font-size: 20px;
+	outline: none;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .songs {

@@ -9,6 +9,9 @@ var songsURL = server + "/songs";
 var songs = [];
 var songElems = [];
 var matches = [];
+var searchElem = document.getElementById("search");
+var reloadElem = document.getElementById("reload");
+var songsElem = document.getElementById("songs");
 var controlElem = document.getElementById("control");
 var audioElem = document.getElementById("audio");
 var opusSourceElem = document.getElementById("opus");
@@ -16,8 +19,6 @@ var mp3SourceElem = document.getElementById("mp3");
 var titleElem = document.getElementById("title");
 var albumElem = document.getElementById("album");
 var artistElem = document.getElementById("artist");
-var searchElem = document.getElementById("search");
-var songsElem = document.getElementById("songs");
 
 function ajax(method, url, callback) {
 	var req = new XMLHttpRequest();
@@ -86,8 +87,12 @@ function load(index) {
 	audioElem.play();
 }
 
-ajax("GET", songsURL, function(responseText) {
-	songs = JSON.parse(responseText);
+function load(songsJSON) {
+	songs = JSON.parse(songsJSON);
+
+	while (songsElem.firstChild) {
+		songsElem.removeChild(songsElem.firstChild);
+	}
 
 	for (var i = 0; i < songs.length; ++i) {
 		var titleElem = document.createElement("div");
@@ -113,7 +118,9 @@ ajax("GET", songsURL, function(responseText) {
 		songElems.push(songElem);
 		songsElem.appendChild(songElem);
 	}
-});
+}
+
+ajax("GET", songsURL, load);
 
 function match(song, key, query) {
 	return song[key].toLowerCase().indexOf(query) != -1;
@@ -162,3 +169,7 @@ searchElem.oninput = function(e) {
 
 	songsElem.classList.add("searching");
 };
+
+reloadElem.onclick = function() {
+	ajax("PUT", songsURL, load);
+}
