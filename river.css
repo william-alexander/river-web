@@ -54,6 +54,7 @@ body, .search {
 
 .reload {
 	-webkit-appearance: none;
+	background: #ddd;
 	border: none;
 	font-size: 20px;
 	outline: none;
