@@ -40,7 +40,9 @@ body, .search {
 }
 
 .search {
+	-webkit-flex: auto;
 	flex: auto;
+
 	-webkit-appearance: none;
 	box-sizing: border-box;
 	border-radius: 0;
