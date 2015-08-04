@@ -89,6 +89,7 @@ function load(index) {
 
 function populate(songsJSON) {
 	songs = JSON.parse(songsJSON);
+	songElems = [];
 
 	while (songsElem.firstChild) {
 		songsElem.removeChild(songsElem.firstChild);
