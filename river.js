@@ -33,7 +33,7 @@ function ajax(method, url, callback) {
 }
 
 audioElem.oncanplay = function() {
-	controlElem.classList.remove("loading");
+	controlElem.classList.remove("waiting");
 }
 
 audioElem.onpause = function() {
@@ -47,7 +47,7 @@ audioElem.onplaying = function() {
 }
 
 controlElem.onclick = function() {
-	if (controlElem.classList.contains("loading")) return;
+	if (controlElem.classList.contains("waiting")) return;
 
 	if (audioElem.paused) {
 		audioElem.play();
@@ -67,7 +67,7 @@ function displayTag(key, song) {
 
 function load(index) {
 	controlElem.classList.remove("hidden");
-	controlElem.classList.add("loading");
+	controlElem.classList.add("waiting");
 	var song = songs[index];
 	var streamURLPrefix = songsURL + "/" + song.id + ".";
 	document.title = song.title;
@@ -119,6 +119,8 @@ function populate(songsJSON) {
 		songElems.push(songElem);
 		songsElem.appendChild(songElem);
 	}
+
+	reloadElem.classList.remove("waiting");
 }
 
 ajax("GET", songsURL, populate);
@@ -172,5 +174,7 @@ searchElem.oninput = function(e) {
 };
 
 reloadElem.onclick = function() {
+	if (reloadElem.classList.contains("waiting")) return;
+	reloadElem.classList.add("waiting");
 	ajax("PUT", songsURL, populate);
 }

@@ -66,6 +66,10 @@ body, .search {
 	padding-right: 10px;
 }
 
+.waiting {
+	cursor: default;
+}
+
 .songs {
 	background: #ddd;
 
@@ -108,16 +112,12 @@ body, .search {
 	font-weight: bold;
 }
 
-.control.loading) {
-	cursor: default;
-}
-
-.control:not(.loading):not(.playing):not(.paused) {
+.control:not(.waiting):not(.playing):not(.paused) {
 	display: none;
 }
 
-.control.loading {
-	-webkit-animation: pulse 1s ease infinite;
+.waiting {
+	-webkit-animation: pulse 1s ease-in-out infinite;
 	animation: pulse 1s ease-in-out infinite;
 }
 
@@ -149,6 +149,6 @@ body, .search {
 	}
 }
 
-.control.paused:not(.loading) {
+.control.paused:not(.waiting) {
 	background: #ddd;
 }
