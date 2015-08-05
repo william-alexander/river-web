@@ -175,6 +175,9 @@ searchElem.oninput = function(e) {
 
 reloadElem.onclick = function() {
 	if (reloadElem.classList.contains("waiting")) return;
+	searchElem.value = "";
+	searchElem.dispatchEvent(new Event("input"));
+	searchElem.oninput();
 	reloadElem.classList.add("waiting");
 	ajax("PUT", songsURL, populate);
 }
