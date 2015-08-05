@@ -153,10 +153,6 @@ searchElem.oninput = function(e) {
 
 	songsElem.scrollTop = 0;
 	
-	for (var i = 0; i < matches.length; ++i) {
-		matches[i].classList.remove("match");
-	}
-
 	var query = e.currentTarget.value.toLowerCase()
 
 	for (var i = 0; i < songElems.length; ++i) {
@@ -167,6 +163,8 @@ searchElem.oninput = function(e) {
 			match(song, "album", query)) {
 			songElems[i].classList.add("match");
 			matches.push(songElems[i]);
+		} else {
+			songElems[i].classList.remove("match");
 		}
 	}
 
