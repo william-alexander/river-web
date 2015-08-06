@@ -34,17 +34,17 @@ function ajax(method, url, callback) {
 
 audioElem.oncanplay = function() {
 	controlElem.classList.remove("waiting");
-}
+};
 
 audioElem.onpause = function() {
 	controlElem.classList.remove("playing");
 	controlElem.classList.add("paused");
-}
+};
 	
 audioElem.onplaying = function() {
 	controlElem.classList.remove("paused");
 	controlElem.classList.add("playing");
-}
+};
 
 controlElem.onclick = function() {
 	if (controlElem.classList.contains("waiting")) return;
@@ -54,7 +54,7 @@ controlElem.onclick = function() {
 	} else {
 		audioElem.pause();
 	}
-}
+};
 
 function displayTag(key, song) {
 	if (key == "title") {
@@ -177,4 +177,4 @@ reloadElem.onclick = function() {
 	searchElem.dispatchEvent(new Event("input"));
 	reloadElem.classList.add("waiting");
 	ajax("PUT", songsURL, populate);
-}
+};
