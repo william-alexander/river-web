@@ -166,3 +166,7 @@ body, .input {
 .control.paused:not(.waiting) {
 	background: #ddd;
 }
+
+::-ms-clear, ::-ms-reveal {
+	display: none;
+}
