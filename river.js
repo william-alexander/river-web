@@ -99,6 +99,7 @@ function load(index) {
 }
 
 function populate(songsJSON) {
+	passwordElem.classList.remove("active");
 	songs = JSON.parse(songsJSON);
 	songElems = [];
 
@@ -131,7 +132,6 @@ function populate(songsJSON) {
 		songsElem.appendChild(songElem);
 	}
 
-	passwordElem.classList.remove("active");
 	reloadElem.classList.remove("waiting");
 }
 
