@@ -5,7 +5,6 @@
 
 body {
 	background: #ddd;
-	cursor: default;
 
 	display: -webkit-flex;
 	display: flex;
@@ -27,15 +26,104 @@ body, .input {
 }
 
 .password {
+	background: white;
+
+	display: -webkit-flex;
+	display: flex;
+
+	-webkit-flex-direction: column;
+	flex-direction: column;
+
+	position: absolute;
 	height: 100%;
 	width: 100%;
-	text-align: center;
-	position: absolute;
 	z-index: 2;
 }
 
 .password:not(.active) {
 	display: none;
+}
+
+.password-submit {
+	-webkit-flex: 1;
+	flex: 1;
+}
+
+.password-input {
+	height: 100%;
+
+	-webkit-flex: auto;
+	flex: auto;
+
+	text-align: center;
+}
+
+.waiting {
+	-webkit-animation: pulse-grey 1s ease-in-out infinite;
+	animation: pulse-grey 1s ease-in-out infinite;
+
+	cursor: default;
+}
+
+@-webkit-keyframes pulse-grey {
+	0% {
+		background: white;
+	}
+
+	50% {
+		background: #ddd;
+	}
+
+	100% {
+		background: white;
+	}
+}
+
+@keyframes pulse-grey {
+	0% {
+		background: white;
+	}
+
+	50% {
+		background: #ddd;
+	}
+
+	100% {
+		background: white;
+	}
+}
+
+.error {
+	-webkit-animation: pulse-red 0.5s ease-in-out;
+	animation: pulse-red 1s ease-in-out;
+}
+
+@-webkit-keyframes pulse-red {
+	0% {
+		background: white;
+	}
+
+	50% {
+		background: #ddd;
+	}
+
+	100% {
+		background: white;
+	}
+}
+
+@keyframes pulse-red {
+	0% {
+		background: white;
+	}
+
+	50% {
+		background: #f99;
+	}
+
+	100% {
+		background: white;
+	}
 }
 
 .aside {
@@ -53,40 +141,34 @@ body, .input {
 }
 
 .input {
-	-webkit-flex: auto;
-	flex: auto;
-
 	-webkit-appearance: none;
+
 	box-sizing: border-box;
 	border-radius: 0;
 	border: none;
 	display: block;
-	outline: none;
+
+	-webkit-flex: auto;
+	flex: auto;
+
 	margin: 0;
+	outline: none;
 }
 
-.reload, .song {
+.search {
+	width: 100%;
+	flex: auto;
+}
+
+.button, .song {
 	cursor: pointer;
 }
 
-.reload {
-	-webkit-appearance: none;
-	background: #ddd;
-	border: none;
+.button {
 	font-size: 20px;
-	margin: 0;
-	outline: none;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-
-.waiting {
-	cursor: default;
 }
 
 .songs {
-	background: #ddd;
-
 	-webkit-flex: 1;
 	flex: 1;
 
@@ -128,39 +210,6 @@ body, .input {
 
 .control:not(.waiting):not(.playing):not(.paused) {
 	display: none;
-}
-
-.waiting {
-	-webkit-animation: pulse 1s ease-in-out infinite;
-	animation: pulse 1s ease-in-out infinite;
-}
-
-@-webkit-keyframes pulse {
-	0% {
-		background: white;
-	}
-
-	50% {
-		background: #ddd;
-	}
-
-	100% {
-		background: white;
-	}
-}
-
-@keyframes pulse {
-	0% {
-		background: white;
-	}
-
-	50% {
-		background: #ddd;
-	}
-
-	100% {
-		background: white;
-	}
 }
 
 .control.paused:not(.waiting) {

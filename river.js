@@ -4,34 +4,14 @@ if (window.location.protocol == "https:" || split.length < 2) {
 	window.location = "https://github.com/wwalexander/river-web#usage";
 }
 
-var password = "";
-
-function ajax(method, url, callback) {
-	var req = new XMLHttpRequest();
-
-	req.onreadystatechange = function() {
-		if (req.readyState != 4 || req.status != 200) return;
-		callback(req.responseText);
-	}
-
-	req.open(method, url);
-	req.setRequestHeader("Authorization", "Basic "+btoa(":"+password));
-	req.send();
-}
-
-var passwordElem = document.getElementById("password");
-
-passwordElem.onkeydown = function(e) {
-	if (event.keyCode != 13) return;
-	password = passwordElem.value;
-	ajax("GET", songsURL, populate);
-};
-
 var server = "http://" + decodeURIComponent(split[1]);
 var songsURL = server + "/songs";
 var songs = [];
 var songElems = [];
 var matches = [];
+var passwordElem = document.getElementById("password");
+var passwordSubmitElem = document.getElementById("password-submit");
+var passwordInputElem = document.getElementById("password-input");
 var searchElem = document.getElementById("search");
 var reloadElem = document.getElementById("reload");
 var songsElem = document.getElementById("songs");
@@ -42,6 +22,45 @@ var mp3SourceElem = document.getElementById("mp3");
 var titleElem = document.getElementById("title");
 var albumElem = document.getElementById("album");
 var artistElem = document.getElementById("artist");
+
+var password = "";
+
+function ajax(method, url, onsuccess, onerror) {
+	var req = new XMLHttpRequest();
+
+	req.onreadystatechange = function() {
+		if (req.readyState != 4) return;
+
+		if (req.status != 200) {
+			onerror(req.status);
+			return
+		}
+
+		onsuccess(req.responseText);
+	};
+
+	req.open(method, url);
+	req.setRequestHeader("Authorization", "Basic "+btoa(":"+password));
+	req.send();
+}
+
+passwordInputElem.onclick = function() {
+	passwordSubmitElem.classList.remove("error");
+}
+
+passwordSubmitElem.onclick = function() {
+	password = passwordInputElem.value;
+	passwordSubmitElem.classList.add("waiting");
+
+	ajax("GET", songsURL, function(responseText) {
+		populate(responseText);
+		passwordElem.classList.remove("active");
+		passwordSubmitElem.classList.remove("waiting");
+	}, function(error) {
+		passwordSubmitElem.classList.remove("waiting");
+		passwordSubmitElem.classList.add("error");
+	});
+};
 
 audioElem.oncanplay = function() {
 	controlElem.classList.remove("waiting");
@@ -99,7 +118,6 @@ function load(index) {
 }
 
 function populate(songsJSON) {
-	passwordElem.classList.remove("active");
 	songs = JSON.parse(songsJSON);
 	songElems = [];
 
@@ -131,8 +149,6 @@ function populate(songsJSON) {
 		songElems.push(songElem);
 		songsElem.appendChild(songElem);
 	}
-
-	reloadElem.classList.remove("waiting");
 }
 
 function match(song, key, query) {
@@ -186,5 +202,11 @@ reloadElem.onclick = function() {
 	searchElem.value = "";
 	searchElem.dispatchEvent(new Event("input"));
 	reloadElem.classList.add("waiting");
-	ajax("PUT", songsURL, populate);
+	ajax("PUT", songsURL, function(responseText) {
+		console.log("onclick");
+		populate(responseText);
+		reloadElem.classList.remove("waiting");
+	}, function() {
+		reloadElem.classList.remove("waiting");
+	});
 };
