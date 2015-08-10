@@ -44,16 +44,11 @@ body, .input {
 	display: none;
 }
 
-.password-submit {
-	-webkit-flex: 1;
-	flex: 1;
-}
-
 .password-input {
 	height: 100%;
 
-	-webkit-flex: auto;
-	flex: auto;
+	-webkit-flex: 1;
+	flex: 1;
 
 	text-align: center;
 }
@@ -94,7 +89,7 @@ body, .input {
 }
 
 .aside {
-	box-shadow: 0 0 2vh #aaa;
+	box-shadow: 0 0 20px #aaa;
 	z-index: 1;
 }
 
