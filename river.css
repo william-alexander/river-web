@@ -93,10 +93,6 @@ body, .input {
 	}
 }
 
-.error {
-	background: #f99;
-}
-
 .aside {
 	box-shadow: 0 0 2vh #aaa;
 	z-index: 1;
@@ -138,6 +134,10 @@ body, .input {
 .button {
 	background: #ddd;
 	font-size: 20px;
+}
+
+.error {
+	background: #f99;
 }
 
 .songs {
