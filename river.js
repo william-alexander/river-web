@@ -4,7 +4,7 @@ if (window.location.protocol == "https:" || split.length < 2) {
 	window.location = "https://github.com/wwalexander/river-web#usage";
 }
 
-var server = "http://" + decodeURIComponent(split[1]);
+var server = location.protocol + "//" + decodeURIComponent(split[1]);
 var songsURL = server + "/songs";
 var songs = [];
 var songElems = [];
