@@ -44,7 +44,7 @@ function ajax(method, url, onsuccess, onerror) {
 	req.send();
 }
 
-passwordInputElem.onclick = function() {
+passwordInputElem.oninput = function() {
 	passwordSubmitElem.classList.remove("error");
 }
 
@@ -59,6 +59,7 @@ passwordSubmitElem.onclick = function() {
 	}, function(error) {
 		passwordSubmitElem.classList.remove("waiting");
 		passwordSubmitElem.classList.add("error");
+		passwordInputElem.value = "";
 	});
 };
 
