@@ -1,6 +1,6 @@
 ﻿var split = window.location.href.split("?");
 
-if (window.location.protocol == "https:" || split.length < 2) {
+if (split.length < 2) {
 	window.location = "https://github.com/wwalexander/river-web#usage";
 }
 
