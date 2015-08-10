@@ -94,36 +94,7 @@ body, .input {
 }
 
 .error {
-	-webkit-animation: pulse-red 0.5s ease-in-out;
-	animation: pulse-red 1s ease-in-out;
-}
-
-@-webkit-keyframes pulse-red {
-	0% {
-		background: white;
-	}
-
-	50% {
-		background: #f99;
-	}
-
-	100% {
-		background: white;
-	}
-}
-
-@keyframes pulse-red {
-	0% {
-		background: white;
-	}
-
-	50% {
-		background: #f99;
-	}
-
-	100% {
-		background: white;
-	}
+	background: red;
 }
 
 .aside {
