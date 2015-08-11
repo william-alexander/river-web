@@ -178,7 +178,7 @@ body, .input {
 	font-weight: bold;
 }
 
-.control:not(.waiting):not(.playing):not(.paused) {
+.control:not(.active) {
 	display: none;
 }
 

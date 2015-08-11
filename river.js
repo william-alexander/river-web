@@ -65,22 +65,22 @@ passwordElem.onsubmit = function() {
 	return false;
 };
 
-audioElem.oncanplay = function() {
-	controlElem.classList.remove("waiting");
-};
+audioElem.onstalled = function() {
+	controlElem.classList.add("waiting");
+}
 
 audioElem.onpause = function() {
-	controlElem.classList.remove("playing");
 	controlElem.classList.add("paused");
 };
 	
 audioElem.onplaying = function() {
+	controlElem.classList.remove("waiting");
 	controlElem.classList.remove("paused");
-	controlElem.classList.add("playing");
 };
 
 controlElem.onclick = function() {
 	if (controlElem.classList.contains("waiting")) return;
+	console.log("clicked");
 
 	if (audioElem.paused) {
 		audioElem.play();
@@ -99,8 +99,8 @@ function displayTag(key, song) {
 }
 
 function load(index) {
-	controlElem.classList.remove("hidden");
 	controlElem.classList.add("waiting");
+	controlElem.classList.add("active");
 	var song = songs[index];
 	var streamURLPrefix = songsURL + "/" + song.id + ".";
 	document.title = song.title;
