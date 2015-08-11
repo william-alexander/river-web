@@ -147,12 +147,8 @@ body, .input {
 	background: white;
 }
 
-.songs > * {
+.songs > :not(:last-child) {
 	margin-bottom: 2px;
-}
-
-.songs > :last-child {
-	margin-bottom: 0px;
 }
 
 .songs.searching > :not(.match) {

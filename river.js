@@ -42,7 +42,7 @@ function ajax(method, url, onsuccess, onerror) {
 	req.open(method, url);
 	req.setRequestHeader("Authorization", "Basic "+btoa(":"+password));
 	req.send();
-	}
+}
 
 passwordInputElem.oninput = function() {
 	passwordSubmitElem.classList.remove("error");
