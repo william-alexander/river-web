@@ -44,6 +44,10 @@ body, .input {
 	display: none;
 }
 
+.input, .song {
+	padding: 10px;
+}
+
 .password-input {
 	height: 100%;
 
@@ -51,6 +55,36 @@ body, .input {
 	flex: 1;
 
 	text-align: center;
+}
+
+.input {
+	-webkit-appearance: none;
+
+	box-sizing: border-box;
+	border-radius: 0;
+	border: none;
+	display: block;
+
+	margin: 0;
+	outline: none;
+}
+
+.button, .song {
+	cursor: pointer;
+}
+
+.button {
+	background: #ddd;
+}
+
+.password-submit {
+	font-size: 20px;
+	padding-bottom: 7px;
+	padding-top: 7px;
+}
+
+.error {
+	background: #f99;
 }
 
 .waiting {
@@ -98,41 +132,14 @@ body, .input {
 	display: flex;
 }
 
-.input, .song {
-	padding: 10px;
-}
-
-.input {
-	-webkit-appearance: none;
-
-	box-sizing: border-box;
-	border-radius: 0;
-	border: none;
-	display: block;
-
-	-webkit-flex: auto;
-	flex: auto;
-
-	margin: 0;
-	outline: none;
-}
-
 .search {
 	width: 100%;
 	flex: auto;
 }
 
-.button, .song {
-	cursor: pointer;
-}
-
-.button {
-	background: #ddd;
-	font-size: 20px;
-}
-
-.error {
-	background: #f99;
+.reload {
+	padding-bottom: 0;
+	padding-top: 0;
 }
 
 .songs {

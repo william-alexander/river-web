@@ -1,6 +1,7 @@
 ﻿var split = window.location.href.split("?");
 
 if (split.length < 2) {
+	alert("A River server must be specified.");
 	window.location = "https://github.com/wwalexander/river-web#usage";
 }
 
