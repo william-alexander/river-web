@@ -42,13 +42,13 @@ function ajax(method, url, onsuccess, onerror) {
 	req.open(method, url);
 	req.setRequestHeader("Authorization", "Basic "+btoa(":"+password));
 	req.send();
-}
+	}
 
 passwordInputElem.oninput = function() {
 	passwordSubmitElem.classList.remove("error");
 }
 
-passwordSubmitElem.onclick = function() {
+passwordElem.onsubmit = function() {
 	password = passwordInputElem.value;
 	passwordSubmitElem.classList.add("waiting");
 
@@ -59,8 +59,9 @@ passwordSubmitElem.onclick = function() {
 	}, function(error) {
 		passwordSubmitElem.classList.remove("waiting");
 		passwordSubmitElem.classList.add("error");
-		passwordInputElem.value = "";
 	});
+
+	return false;
 };
 
 audioElem.oncanplay = function() {
