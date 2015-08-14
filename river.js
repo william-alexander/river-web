@@ -1,4 +1,4 @@
-﻿var split = window.location.href.split("#");
+var split = window.location.href.split("#");
 
 if (split.length < 2) {
 	alert("A River server must be specified.");
@@ -26,23 +26,36 @@ var artistElem = document.getElementById("artist");
 
 var password = "";
 
-function ajax(method, url, onsuccess, onerror) {
-	var req = new XMLHttpRequest();
+function setAuthHeader(xhr) {
+	xhr.setRequestHeader("Authorization", "Basic "+btoa(":"+password));
+}
 
-	req.onreadystatechange = function() {
-		if (req.readyState != 4) return;
+function ajax(method, url, onload, onhttperror) {
+	var xhr = new XMLHttpRequest();
 
-		if (req.status != 200) {
-			onerror(req.status);
+	xhr.onload = function() {
+		if (this.status != 200) {
+			onhttperror(this.status);
 			return
 		}
 
-		onsuccess(req.responseText);
+		onload(this.responseText);
 	};
 
-	req.open(method, url);
-	req.setRequestHeader("Authorization", "Basic "+btoa(":"+password));
-	req.send();
+	xhr.open(method, url);
+	setAuthHeader(xhr);
+	xhr.send();
+}
+
+function ajaxBlob(url, onprogress) {
+	var xhr = new XMLHttpRequest();
+
+	xhr.onprogress = onprogress;
+
+	xhr.open("GET", url);
+	xhr.responseType = "blob";
+	setAuthHeader(xhr);
+	xhr.send();
 }
 
 passwordInputElem.oninput = function() {
@@ -102,13 +115,11 @@ function load(index) {
 	controlElem.classList.add("waiting");
 	controlElem.classList.add("active");
 	var song = songs[index];
-	var streamURLPrefix = songsURL + "/" + song.id + ".";
 	document.title = song.title;
 	titleElem.textContent = displayTag("title", song);
 	artistElem.textContent = displayTag("artist", song);
 	albumElem.textContent = displayTag("album", song);
-	opusSourceElem.src = streamURLPrefix + "opus";
-	mp3SourceElem.src = streamURLPrefix + "mp3";
+	var streamURLPrefix = songsURL + "/" + song.id + ".";
 
 	audioElem.onended = function() {
 		var nextIndex = index+1;
@@ -116,8 +127,17 @@ function load(index) {
 		load(nextIndex);
 	}
 
-	audioElem.load();
-	audioElem.play();
+	ajaxBlob(streamURLPrefix+"opus", function() {
+		opusSourceElem.src = URL.createObjectURL(this.response);
+		audioElem.load();
+		audioElem.play();
+	});
+
+	ajaxBlob(streamURLPrefix+"mp3", function() {
+		mp3SourceElem.src = URL.createObjectURL(this.response);
+		audioElem.load();
+		audioElem.play();
+	});
 }
 
 function populate(songsJSON) {
@@ -146,7 +166,7 @@ function populate(songsJSON) {
 		songElem.appendChild(albumElem);
 
 		songElem.onclick = function(e) {
-			load(parseInt(e.currentTarget.dataset.index));
+			load(parseInt(this.dataset.index));
 		}
 
 		songElems.push(songElem);
