@@ -111,6 +111,7 @@ function displayTag(key, song) {
 }
 
 function load(index) {
+	audioElem.pause();
 	controlElem.classList.add("waiting");
 	controlElem.classList.add("active");
 	var song = songs[index];
