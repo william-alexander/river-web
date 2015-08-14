@@ -47,10 +47,10 @@ function ajax(method, url, onload, onhttperror) {
 	xhr.send();
 }
 
-function ajaxBlob(url, onprogress) {
+function ajaxBlob(url, onload) {
 	var xhr = new XMLHttpRequest();
 
-	xhr.onprogress = onprogress;
+	xhr.onload = onload;
 
 	xhr.open("GET", url);
 	xhr.responseType = "blob";
@@ -131,7 +131,7 @@ function load(index) {
 		audioElem.load();
 		audioElem.play();
 	});
-
+	
 	ajaxBlob(streamURLPrefix+"mp3", function() {
 		mp3SourceElem.src = URL.createObjectURL(this.response);
 		audioElem.load();
