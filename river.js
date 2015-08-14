@@ -93,7 +93,6 @@ audioElem.onplaying = function() {
 
 controlElem.onclick = function() {
 	if (controlElem.classList.contains("waiting")) return;
-	console.log("clicked");
 
 	if (audioElem.paused) {
 		audioElem.play();
@@ -226,7 +225,6 @@ reloadElem.onclick = function() {
 	searchElem.dispatchEvent(new Event("input"));
 	reloadElem.classList.add("waiting");
 	ajax("PUT", songsURL, function(responseText) {
-		console.log("onclick");
 		populate(responseText);
 		reloadElem.classList.remove("waiting");
 	}, function() {
