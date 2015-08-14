@@ -144,7 +144,6 @@ function load() {
 	ajaxBlob(songsURL+"/"+song.id+"."+ext, function() {
 		URL.revokeObjectURL(sourceElem.src);
 		sourceElem.src = URL.createObjectURL(this.response);
-		alert(sourceElem.src);
 		audioElem.load();
 		audioElem.play();
 	});
