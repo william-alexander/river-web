@@ -1,8 +1,9 @@
+var usageURL = "https://github.com/wwalexander/river-web#usage";
 var split = window.location.href.split("#");
 
 if (split.length < 2) {
 	alert("A River server must be specified.");
-	window.location = "https://github.com/wwalexander/river-web#usage";
+	window.location = usageURL;
 }
 
 var server = location.protocol + "//" + decodeURIComponent(split[1]);
@@ -23,6 +24,19 @@ var mp3SourceElem = document.getElementById("mp3");
 var titleElem = document.getElementById("title");
 var albumElem = document.getElementById("album");
 var artistElem = document.getElementById("artist");
+var sourceElem;
+var ext;
+
+if (audioElem.canPlayType(opusSourceElem.type) != "") {
+	sourceElem = opusSourceElem;
+	ext = "opus";
+} else if (audioElem.canPlayType(mp3SourceElem.type) != "") {
+	sourceElem = mp3SourceElem;
+	ext = "mp3";
+} else {
+	alert("Your browser doesn't support Opus or MP3 audio.");
+	window.location = usageURL;
+}
 
 var password = "";
 
@@ -62,7 +76,7 @@ passwordInputElem.oninput = function() {
 	passwordSubmitElem.classList.remove("error");
 }
 
-passwordElem.onsubmit = function() {
+passwordElem.onsubmit = function(e) {
 	password = passwordInputElem.value;
 	passwordSubmitElem.classList.add("waiting");
 
@@ -110,7 +124,8 @@ function displayTag(key, song) {
 	return val == "" ? "-" : val;
 }
 
-function load(index) {
+function load() {
+	var index = parseInt(this.dataset.index);
 	audioElem.pause();
 	controlElem.classList.add("waiting");
 	controlElem.classList.add("active");
@@ -123,24 +138,13 @@ function load(index) {
 	audioElem.onended = function() {
 		var nextIndex = index+1;
 		if (nextIndex >= songs.length) return;
-		load(nextIndex);
-	}
-
-	var sourceElem;
-	var ext;
-
-	if (audioElem.canPlayType("audio/ogg") != "-") {
-		sourceElem = opusSourceElem;
-		ext = "opus";
-	} else if (audioElem.canPlayType("audio/mpeg") != "-") {
-		sourceElem = mp3SourceElem;
-		ext = "mp3";
-	} else {
-		return;
+		songElems(nextIndex).dispatchEvent(new Event("click"));
 	}
 
 	ajaxBlob(songsURL+"/"+song.id+"."+ext, function() {
+		URL.revokeObjectURL(sourceElem.src);
 		sourceElem.src = URL.createObjectURL(this.response);
+		alert(sourceElem.src);
 		audioElem.load();
 		audioElem.play();
 	});
@@ -170,11 +174,7 @@ function populate(songsJSON) {
 		songElem.appendChild(titleElem);
 		songElem.appendChild(artistElem);
 		songElem.appendChild(albumElem);
-
-		songElem.onclick = function(e) {
-			load(parseInt(this.dataset.index));
-		}
-
+		songElem.onclick = load;
 		songElems.push(songElem);
 		songsElem.appendChild(songElem);
 	}
