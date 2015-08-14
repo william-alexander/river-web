@@ -119,7 +119,6 @@ function load(index) {
 	titleElem.textContent = displayTag("title", song);
 	artistElem.textContent = displayTag("artist", song);
 	albumElem.textContent = displayTag("album", song);
-	var streamURLPrefix = songsURL + "/" + song.id + ".";
 
 	audioElem.onended = function() {
 		var nextIndex = index+1;
@@ -127,14 +126,21 @@ function load(index) {
 		load(nextIndex);
 	}
 
-	ajaxBlob(streamURLPrefix+"opus", function() {
-		opusSourceElem.src = URL.createObjectURL(this.response);
-		audioElem.load();
-		audioElem.play();
-	});
-	
-	ajaxBlob(streamURLPrefix+"mp3", function() {
-		mp3SourceElem.src = URL.createObjectURL(this.response);
+	var sourceElem;
+	var ext;
+
+	if (audioElem.canPlayType("audio/ogg") != "-") {
+		sourceElem = opusSourceElem;
+		ext = "opus";
+	} else if (audioElem.canPlayType("audio/mpeg") != "-") {
+		sourceElem = mp3SourceElem;
+		ext = "mp3";
+	} else {
+		return;
+	}
+
+	ajaxBlob(songsURL+"/"+song.id+"."+ext, function() {
+		sourceElem.src = URL.createObjectURL(this.response);
 		audioElem.load();
 		audioElem.play();
 	});
