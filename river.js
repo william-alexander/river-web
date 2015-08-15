@@ -1,237 +1,95 @@
-var usageURL = "https://github.com/wwalexander/river-web#usage";
-var split = window.location.href.split("#");
+var formElem = document.getElementById("form");
+formElem.elements.server.value = location.protocol + "//";
+var split = location.href.split("#");
 
-if (split.length < 2) {
-	alert("A River server must be specified.");
-	window.location = usageURL;
+if (split.length > 1) {
+	formElem.elements.server.value += decodeURIComponent(split[1]);
 }
 
-var server = location.protocol + "//" + decodeURIComponent(split[1]);
-var songsURL = server + "/songs";
-var songs = [];
-var songElems = [];
-var matches = [];
-var passwordElem = document.getElementById("password");
-var passwordSubmitElem = document.getElementById("password-submit");
-var passwordInputElem = document.getElementById("password-input");
-var searchElem = document.getElementById("search");
-var reloadElem = document.getElementById("reload");
-var songsElem = document.getElementById("songs");
-var controlElem = document.getElementById("control");
 var audioElem = document.getElementById("audio");
 var opusSourceElem = document.getElementById("opus");
 var mp3SourceElem = document.getElementById("mp3");
-var titleElem = document.getElementById("title");
-var albumElem = document.getElementById("album");
-var artistElem = document.getElementById("artist");
 var sourceElem;
 var ext;
 
-if (audioElem.canPlayType(opusSourceElem.type) != "") {
+if (audioElem.canPlayType(opusSourceElem.type) !== "") {
 	sourceElem = opusSourceElem;
 	ext = "opus";
-} else if (audioElem.canPlayType(mp3SourceElem.type) != "") {
+} else if (audioElem.canPlayType(mp3SourceElem.type) !== "") {
 	sourceElem = mp3SourceElem;
 	ext = "mp3";
 } else {
-	alert("Your browser doesn't support Opus or MP3 audio.");
-	window.location = usageURL;
+	alert("No supported audio types");
 }
 
-var password = "";
+var auth;
 
-function setAuthHeader(xhr) {
-	xhr.setRequestHeader("Authorization", "Basic "+btoa(":"+password));
-}
-
-function ajax(method, url, onload, onhttperror) {
+formElem.onsubmit = function() {
+	auth = "Basic " + btoa(":"+formElem.elements.password.value);
 	var xhr = new XMLHttpRequest();
-
-	xhr.onload = function() {
-		if (this.status != 200) {
-			onhttperror(this.status);
-			return
-		}
-
-		onload(this.responseText);
-	};
-
-	xhr.open(method, url);
-	setAuthHeader(xhr);
+	xhr.onload = onsongsload;
+	xhr.open("GET", formElem.elements.server.value+"/songs");
+	xhr.setRequestHeader("Authorization", auth);
 	xhr.send();
-}
-
-function ajaxBlob(url, onload) {
-	var xhr = new XMLHttpRequest();
-	xhr.onload = onload;
-	xhr.open("GET", url);
-	xhr.responseType = "blob";
-	setAuthHeader(xhr);
-	xhr.send();
-}
-
-passwordInputElem.oninput = function() {
-	passwordSubmitElem.classList.remove("error");
-}
-
-passwordElem.onsubmit = function(e) {
-	password = passwordInputElem.value;
-	passwordSubmitElem.classList.add("waiting");
-
-	ajax("GET", songsURL, function(responseText) {
-		populate(responseText);
-		passwordElem.classList.remove("active");
-		passwordSubmitElem.classList.remove("waiting");
-	}, function(error) {
-		passwordSubmitElem.classList.remove("waiting");
-		passwordSubmitElem.classList.add("error");
-	});
-
 	return false;
-};
-
-audioElem.onstalled = function() {
-	controlElem.classList.add("waiting");
 }
 
-audioElem.onpause = function() {
-	controlElem.classList.add("paused");
-};
-	
-audioElem.onplaying = function() {
-	controlElem.classList.remove("waiting");
-	controlElem.classList.remove("paused");
-};
+var songsElem = document.getElementById("songs");
+var songs;
 
-controlElem.onclick = function() {
-	if (controlElem.classList.contains("waiting")) return;
-
-	if (audioElem.paused) {
-		audioElem.play();
-	} else {
-		audioElem.pause();
-	}
-};
-
-function displayTag(key, song) {
-	if (key == "title") {
-		return song.title == "" ? song.path : song.title;
-	}
-
-	var val = song[key];
-	return val == "" ? "-" : val;
-}
-
-function load() {
-	var index = parseInt(this.dataset.index);
-	audioElem.pause();
-	controlElem.classList.add("waiting");
-	controlElem.classList.add("active");
-	var song = songs[index];
-	document.title = song.title;
-	titleElem.textContent = displayTag("title", song);
-	artistElem.textContent = displayTag("artist", song);
-	albumElem.textContent = displayTag("album", song);
-
-	audioElem.onended = function() {
-		var nextIndex = index+1;
-		if (nextIndex >= songs.length) return;
-		songElems[nextIndex].dispatchEvent(new Event("click"));
-	}
-
-	ajaxBlob(songsURL+"/"+song.id+"."+ext, function() {
-		URL.revokeObjectURL(sourceElem.src);
-		sourceElem.src = URL.createObjectURL(this.response);
-		audioElem.load();
-		audioElem.play();
-	});
-}
-
-function populate(songsJSON) {
-	songs = JSON.parse(songsJSON);
-	songElems = [];
-
-	while (songsElem.firstChild) {
-		songsElem.removeChild(songsElem.firstChild);
-	}
+function onsongsload() {
+	if (this.status != 200) return;
+	formElem.classList.remove("active");
+	songs = JSON.parse(this.responseText);
 
 	for (var i = 0; i < songs.length; ++i) {
-		var titleElem = document.createElement("div");
-		titleElem.classList.add("title", "tag");
-		titleElem.textContent = displayTag("title", songs[i]);
-		var artistElem = document.createElement("div");
-		artistElem.classList.add("tag");
-		artistElem.textContent = displayTag("artist", songs[i]);
-		var albumElem = document.createElement("div");
-		albumElem.classList.add("tag");
-		albumElem.textContent = displayTag("album", songs[i]);
 		var songElem = document.createElement("div");
 		songElem.classList.add("song");
+
+		songElem.textContent = (songs[i].title == "" ?
+				songs[i].path :
+				songs[i].title) +
+			" - " +
+			songs[i].artist +
+			" - " +
+			songs[i].album;
+
 		songElem.dataset.index = i;
-		songElem.appendChild(titleElem);
-		songElem.appendChild(artistElem);
-		songElem.appendChild(albumElem);
-		songElem.onclick = load;
-		songElems.push(songElem);
+		songElem.onclick = onsongclick;
 		songsElem.appendChild(songElem);
 	}
 }
 
-function match(song, key, query) {
-	return song[key].toLowerCase().indexOf(query) != -1;
+function titleOrPath(song) {
+	return song.title == "" ? song.path : song.title;
 }
 
-var wasEmpty = true;
-var scrollTop = 0;
+function load(index) {
+	document.title = titleOrPath(songs[index]);
 
-searchElem.oninput = function(e) {
-	var isEmpty = e.currentTarget.value == "";
-
-	if (wasEmpty && isEmpty) {
-		return;
+	audioElem.onended = function() {
+		var next = index + 1;
+		if (next >= songs.length) return;
+		load(next);
 	}
 
-	if (isEmpty) {
-		wasEmpty = true;
-		songsElem.classList.remove("searching");
-		songsElem.scrollTop = scrollTop;
-		return;
-	}
+	var xhr = new XMLHttpRequest();
+	xhr.onload = onsongload;
+	xhr.open("GET", formElem.elements.server.value+"/songs/"+songs[index].id+"."+ext);
+	xhr.responseType = "blob";
+	xhr.setRequestHeader("Authorization", auth);
+	xhr.send();
+}
 
-	if (wasEmpty) {
-		wasEmpty = false;
-		scrollTop = songsElem.scrollTop;
-	}
+function onsongclick() {
+	load(parseInt(this.dataset.index));
+}
 
-	songsElem.scrollTop = 0;
-	
-	var query = e.currentTarget.value.toLowerCase()
+function onsongload() {
+	if (this.status != 200) return;
+	URL.revokeObjectURL(sourceElem.src);
+	sourceElem.src = URL.createObjectURL(this.response);
 
-	for (var i = 0; i < songElems.length; ++i) {
-		var song = songs[i];
-
-		if (match(song, "title", query) ||
-			match(song, "artist", query) ||
-			match(song, "album", query)) {
-			songElems[i].classList.add("match");
-			matches.push(songElems[i]);
-		} else {
-			songElems[i].classList.remove("match");
-		}
-	}
-
-	songsElem.classList.add("searching");
-};
-
-reloadElem.onclick = function() {
-	if (reloadElem.classList.contains("waiting")) return;
-	searchElem.value = "";
-	searchElem.dispatchEvent(new Event("input"));
-	reloadElem.classList.add("waiting");
-	ajax("PUT", songsURL, function(responseText) {
-		populate(responseText);
-		reloadElem.classList.remove("waiting");
-	}, function() {
-		reloadElem.classList.remove("waiting");
-	});
-};
+	audioElem.load();
+	audioElem.play();
+}

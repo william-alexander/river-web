@@ -1,191 +1,45 @@
-﻿html, body {
+html, body {
 	height: 100%;
-	overflow: hidden;
 }
 
 body {
-	background: #ddd;
+	margin: 0;
 
 	display: -webkit-flex;
 	display: flex;
 
 	-webkit-flex-direction: column;
 	flex-direction: column;
-
-	font-family: sans-serif;
-	margin: 0;
-
-	-webkit-user-select: none;
-	user-select: none;
-
-	-webkit-text-size-adjust: 100%;
 }
 
-body, .input {
-	font-size: 16px;
-}
-
-.password {
+.form {
 	background: white;
-
-	display: -webkit-flex;
-	display: flex;
-
-	-webkit-flex-direction: column;
-	flex-direction: column;
-
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	z-index: 2;
-}
-
-.password:not(.active) {
 	display: none;
-}
-
-.input, .song {
-	padding: 10px;
-}
-
-.password-input {
 	height: 100%;
-
-	-webkit-flex: 1;
-	flex: 1;
-
-	text-align: center;
-}
-
-.input {
-	-webkit-appearance: none;
-
-	box-sizing: border-box;
-	border-radius: 0;
-	border: none;
-	display: block;
-
-	margin: 0;
-	outline: none;
-}
-
-.button, .song {
-	cursor: pointer;
-}
-
-.button {
-	background: #ddd;
-}
-
-.password-submit {
-	font-size: 20px;
-	padding-bottom: 7px;
-	padding-top: 7px;
-}
-
-.error {
-	background: #f99;
-}
-
-.waiting {
-	-webkit-animation: pulse-grey 1s ease-in-out infinite;
-	animation: pulse-grey 1s ease-in-out infinite;
-
-	cursor: default;
-}
-
-@-webkit-keyframes pulse-grey {
-	0% {
-		background: white;
-	}
-
-	50% {
-		background: #ddd;
-	}
-
-	100% {
-		background: white;
-	}
-}
-
-@keyframes pulse-grey {
-	0% {
-		background: white;
-	}
-
-	50% {
-		background: #ddd;
-	}
-
-	100% {
-		background: white;
-	}
-}
-
-.aside {
-	box-shadow: 0 0 20px #aaa;
+	position: fixed;
+	width: 100%;
 	z-index: 1;
 }
 
-.nav {
-	display: -webkit-flex;
-	display: flex;
+.form.active {
+	display: initial;
 }
 
-.search {
-	width: 100%;
-	flex: auto;
+.audio {
+	display: none;
 }
 
-.reload {
-	padding-bottom: 0;
-	padding-top: 0;
+.audio.active {
+	display: initial;
 }
 
 .songs {
 	-webkit-flex: 1;
 	flex: 1;
 
-	-webkit-overflow-scrolling: touch;
 	overflow-y: scroll;
 }
 
 .song {
-	background: white;
-}
-
-.songs > :not(:last-child) {
-	margin-bottom: 2px;
-}
-
-.songs.searching > :not(.match) {
-	display: none;
-}
-
-.tag {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.tag:not(.title) {
-	color: grey;
-	font-size: 14px;
-}
-
-.title {
-	color: black;
-	font-weight: bold;
-}
-
-.control:not(.active) {
-	display: none;
-}
-
-.control.paused:not(.waiting) {
-	background: #ddd;
-}
-
-::-ms-clear, ::-ms-reveal {
-	display: none;
+	border: 1px solid black;
 }

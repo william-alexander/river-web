@@ -9,24 +9,16 @@
 		<title>River</title>
 	</head>
 	<body>
-		<form id="password" class="password active">
-			<button id="password-submit" class="password-submit button input">&#8594;</button>
-			<input id="password-input" type="password" class="password-input input" placeholder="Password" autofocus>
+		<form id="form" class="active form">
+			<input name="server" type="text" placeholder="Server">
+			<input name="password" type="password" placeholder="Password">
+			<input type="submit" value="Submit">
 		</form>
-		<div class="nav aside">
-			<input id="search" class="search input" type="search" placeholder="Search">
-			<button id="reload" class="reload button input">&#8635;</button>
-		</div>
+		<audio id="audio" controls>
+			<source id="opus" type='audio/ogg; codecs="opus"'>
+			<source id="mp3" type='audio/mpeg; codecs="mp3"'>
+		</audio>
 		<div id="songs" class="songs"></div>
-		<div id="control" class="control song aside">
-			<audio id="audio">
-				<source id="opus" type='audio/ogg; codecs="opus"'>
-				<source id="mp3" type='audio/mpeg; codecs="mp3"'>
-			</audio>
-			<div id="title" class="title tag"></div>
-			<div id="artist" class="tag"></div>
-			<div id="album" class="tag"></div>
-		</div>
 		<script src="river.js"></script>
 	</body>
 </html>
