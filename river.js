@@ -53,10 +53,13 @@ function onsongsload() {
 	for (var i = 0; i < songs.length; ++i) {
 		var titleElem = document.createElement("div");
 		titleElem.textContent = titleOrPath(songs[i]);
+		titleElem.classList.add("tag");
 		var artistElem = document.createElement("div");
 		artistElem.textContent = tagOrDash(songs[i].artist);
+		artistElem.classList.add("tag");
 		var albumElem = document.createElement("div");
 		albumElem.textContent = tagOrDash(songs[i].album);
+		albumElem.classList.add("tag");
 		var songElem = document.createElement("div");
 		songElem.classList.add("song");
 		songElem.dataset.index = i;
