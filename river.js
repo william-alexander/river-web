@@ -64,6 +64,10 @@ function ajax(method, url, onload, onhttperror) {
 function ajaxBlob(url, onload) {
 	var xhr = new XMLHttpRequest();
 
+	xhr.onprogress = function() {
+		alert("progress");
+	}
+
 	xhr.onload = onload;
 
 	xhr.open("GET", url);
@@ -138,7 +142,7 @@ function load() {
 	audioElem.onended = function() {
 		var nextIndex = index+1;
 		if (nextIndex >= songs.length) return;
-		songElems(nextIndex).dispatchEvent(new Event("click"));
+		songElems[nextIndex].dispatchEvent(new Event("click"));
 	}
 
 	ajaxBlob(songsURL+"/"+song.id+"."+ext, function() {
