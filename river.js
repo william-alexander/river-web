@@ -63,9 +63,7 @@ function ajax(method, url, onload, onhttperror) {
 
 function ajaxBlob(url, onload) {
 	var xhr = new XMLHttpRequest();
-
 	xhr.onload = onload;
-
 	xhr.open("GET", url);
 	xhr.responseType = "blob";
 	setAuthHeader(xhr);
