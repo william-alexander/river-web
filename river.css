@@ -3,13 +3,13 @@ html, body {
 }
 
 body {
-	margin: 0;
-
 	display: -webkit-flex;
 	display: flex;
 
 	-webkit-flex-direction: column;
 	flex-direction: column;
+
+	margin: 0;
 }
 
 .form {
@@ -26,6 +26,7 @@ body {
 }
 
 .audio {
+	width: 100%;
 	display: none;
 }
 
@@ -42,5 +43,12 @@ body {
 }
 
 .song {
-	border: 1px solid black;
+	cursor: default;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.song:nth-child(even) {
+	background: lightgrey;
 }

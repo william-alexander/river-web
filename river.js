@@ -32,10 +32,18 @@ formElem.onsubmit = function() {
 	xhr.setRequestHeader("Authorization", auth);
 	xhr.send();
 	return false;
-}
+};
 
 var songsElem = document.getElementById("songs");
 var songs;
+
+function titleOrPath(song) {
+	return song.title === "" ? song.path : song.title;
+}
+
+function tagOrDash(tag) {
+	return tag === "" ? "-" : tag;
+}
 
 function onsongsload() {
 	if (this.status != 200) return;
@@ -43,35 +51,32 @@ function onsongsload() {
 	songs = JSON.parse(this.responseText);
 
 	for (var i = 0; i < songs.length; ++i) {
+		var titleElem = document.createElement("div");
+		titleElem.textContent = titleOrPath(songs[i]);
+		var artistElem = document.createElement("div");
+		artistElem.textContent = tagOrDash(songs[i].artist);
+		var albumElem = document.createElement("div");
+		albumElem.textContent = tagOrDash(songs[i].album);
 		var songElem = document.createElement("div");
 		songElem.classList.add("song");
-
-		songElem.textContent = (songs[i].title == "" ?
-				songs[i].path :
-				songs[i].title) +
-			" - " +
-			songs[i].artist +
-			" - " +
-			songs[i].album;
-
 		songElem.dataset.index = i;
 		songElem.onclick = onsongclick;
+		songElem.appendChild(titleElem);
+		songElem.appendChild(artistElem);
+		songElem.appendChild(albumElem);
 		songsElem.appendChild(songElem);
 	}
 }
 
-function titleOrPath(song) {
-	return song.title == "" ? song.path : song.title;
-}
-
 function load(index) {
+	audioElem.classList.remove("active");
 	document.title = titleOrPath(songs[index]);
 
 	audioElem.onended = function() {
 		var next = index + 1;
 		if (next >= songs.length) return;
 		load(next);
-	}
+	};
 
 	var xhr = new XMLHttpRequest();
 	xhr.onload = onsongload;
@@ -89,7 +94,7 @@ function onsongload() {
 	if (this.status != 200) return;
 	URL.revokeObjectURL(sourceElem.src);
 	sourceElem.src = URL.createObjectURL(this.response);
-
 	audioElem.load();
+	audioElem.classList.add("active");
 	audioElem.play();
 }
