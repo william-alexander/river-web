@@ -64,10 +64,6 @@ function ajax(method, url, onload, onhttperror) {
 function ajaxBlob(url, onload) {
 	var xhr = new XMLHttpRequest();
 
-	xhr.onprogress = function() {
-		alert("progress");
-	}
-
 	xhr.onload = onload;
 
 	xhr.open("GET", url);
