@@ -12,7 +12,7 @@ body {
 	margin: 0;
 }
 
-.form {
+.login {
 	background: white;
 	display: none;
 	height: 100%;
@@ -21,7 +21,7 @@ body {
 	z-index: 1;
 }
 
-.form.active {
+.login.active {
 	display: initial;
 }
 
@@ -32,6 +32,10 @@ body {
 
 .audio.active {
 	display: initial;
+}
+
+.search {
+	width: 100%;
 }
 
 .songs {
@@ -46,12 +50,16 @@ body {
 	cursor: default;
 }
 
+.song:nth-child(even) {
+	background: lightgrey;
+}
+
+.song.exclude {
+	display: none;
+}
+
 .tag {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-
-.song:nth-child(even) {
-	background: lightgrey;
 }
