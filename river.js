@@ -44,18 +44,22 @@ function tagOrDash(tag) {
 }
 
 var songsElem = document.getElementById("songs");
-var songElems = [];
+var reloadElem = document.getElementById("reload");
+var songElems;
 var songs;
 
 function onsongsload() {
 	if (this.status != 200) return;
+	reloadElem.removeAttribute("disabled");
 	formElem.classList.remove("active");
 	songs = JSON.parse(this.responseText);
+	songElems = [];
 
 	for (var i = 0; i < songs.length; ++i) {
 		var titleElem = document.createElement("div");
 		titleElem.textContent = titleOrPath(songs[i]);
 		titleElem.classList.add("tag");
+		titleElem.classList.add("title");
 		var artistElem = document.createElement("div");
 		artistElem.textContent = tagOrDash(songs[i].artist);
 		artistElem.classList.add("tag");
@@ -97,7 +101,7 @@ function onsongclick() {
 }
 
 function onsongload() {
-	if (this.status != 200) return;
+	if (this.status !== 200) return;
 	URL.revokeObjectURL(sourceElem.src);
 	sourceElem.src = URL.createObjectURL(this.response);
 	audioElem.load();
@@ -121,4 +125,13 @@ document.getElementById("search").oninput = function() {
 			songElems[i].classList.add("exclude");
 		}
 	}
+};
+
+reloadElem.onclick = function() {
+	reloadElem.setAttribute("disabled", true);
+	var xhr = new XMLHttpRequest();
+	xhr.onload = onsongsload;
+	xhr.open("PUT", formElem.elements.server.value+"/songs");
+	xhr.setRequestHeader("Authorization", auth);
+	xhr.send();
 };

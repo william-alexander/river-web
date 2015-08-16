@@ -3,6 +3,7 @@ html, body {
 }
 
 body {
+	font-family: sans-serif;
 	display: -webkit-flex;
 	display: flex;
 
@@ -10,6 +11,11 @@ body {
 	flex-direction: column;
 
 	margin: 0;
+}
+
+input {
+	font-size: 16px;
+	width: 100%;
 }
 
 .login {
@@ -34,10 +40,6 @@ body {
 	display: initial;
 }
 
-.search {
-	width: 100%;
-}
-
 .songs {
 	-webkit-flex: 1;
 	flex: 1;
@@ -51,7 +53,7 @@ body {
 }
 
 .song:nth-child(even) {
-	background: lightgrey;
+	background: #ddd;
 }
 
 .song.exclude {
@@ -62,4 +64,8 @@ body {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.tag.title {
+	font-weight: bold;
 }
