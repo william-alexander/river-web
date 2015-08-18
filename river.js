@@ -24,12 +24,16 @@ if (audioElem.canPlayType(opusSourceElem.type) !== "") {
 }
 
 var auth;
+var url;
 
 formElem.onsubmit = function() {
+	url = new URL(formElem.elements.server.value);
+	url.port = parseInt(formElem.elements.port.value)
+	url.password = formElem.elements.password.value;
 	auth = "Basic " + btoa(":"+formElem.elements.password.value);
 	var xhr = new XMLHttpRequest();
 	xhr.onload = onsongsload;
-	xhr.open("GET", formElem.elements.server.value+"/songs");
+	xhr.open("GET", new URL("/songs", url).toString());
 	xhr.setRequestHeader("Authorization", auth);
 	xhr.send();
 	return false;
@@ -88,25 +92,14 @@ function load(index) {
 		load(next);
 	};
 
-	var xhr = new XMLHttpRequest();
-	xhr.onload = onsongload;
-	xhr.open("GET", formElem.elements.server.value+"/songs/"+songs[index].id+"."+ext);
-	xhr.responseType = "blob";
-	xhr.setRequestHeader("Authorization", auth);
-	xhr.send();
+	sourceElem.src = new URL("songs/"+songs[index].id+"."+ext, url).toString();
+	audioElem.load();
+	audioElem.classList.add("active");
+	audioElem.play();
 }
 
 function onsongclick() {
 	load(parseInt(this.dataset.index));
-}
-
-function onsongload() {
-	if (this.status !== 200) return;
-	URL.revokeObjectURL(sourceElem.src);
-	sourceElem.src = URL.createObjectURL(this.response);
-	audioElem.load();
-	audioElem.classList.add("active");
-	audioElem.play();
 }
 
 function matchFold(a, b) {
