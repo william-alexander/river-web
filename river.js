@@ -1,10 +1,17 @@
-var formElem = document.getElementById("login");
-var split = location.href.split("#");
+var queries = location.search.substring(1).split("&");
+var loginElem = document.getElementById("login");
 
-if (split.length > 1 && formElem.elements.server.value === "") {
-	formElem.elements.server.value = location.protocol +
-		"//" +
-		decodeURIComponent(split[1]);
+for (var i = 0; i < queries.length; ++i) {
+	var pair = queries[i].split("=");
+
+	switch (pair[0]) {
+		case "server":
+			loginElem.elements.server.value = location.protocol+"//"+decodeURIComponent(pair[1]);
+			break;
+		case "port":
+			loginElem.elements.port.value = parseInt(decodeURIComponent(pair[1]));
+			break;
+	}
 }
 
 var audioElem = document.getElementById("audio");
@@ -26,11 +33,11 @@ if (audioElem.canPlayType(opusSourceElem.type) !== "") {
 var auth;
 var url;
 
-formElem.onsubmit = function() {
-	url = new URL(formElem.elements.server.value);
-	url.port = parseInt(formElem.elements.port.value)
-	url.password = formElem.elements.password.value;
-	auth = "Basic " + btoa(":"+formElem.elements.password.value);
+loginElem.onsubmit = function() {
+	url = new URL(loginElem.elements.server.value);
+	url.port = parseInt(loginElem.elements.port.value)
+	url.password = loginElem.elements.password.value;
+	auth = "Basic " + btoa(":"+loginElem.elements.password.value);
 	var xhr = new XMLHttpRequest();
 	xhr.onload = onsongsload;
 	xhr.open("GET", new URL("/songs", url).toString());
@@ -55,7 +62,7 @@ var songs;
 function onsongsload() {
 	if (this.status != 200) return;
 	reloadElem.removeAttribute("disabled");
-	formElem.classList.remove("active");
+	loginElem.classList.remove("active");
 	songs = JSON.parse(this.responseText);
 	songElems = [];
 
@@ -124,7 +131,7 @@ reloadElem.onclick = function() {
 	reloadElem.setAttribute("disabled", true);
 	var xhr = new XMLHttpRequest();
 	xhr.onload = onsongsload;
-	xhr.open("PUT", formElem.elements.server.value+"/songs");
+	xhr.open("PUT", loginElem.elements.server.value+"/songs");
 	xhr.setRequestHeader("Authorization", auth);
 	xhr.send();
 };
