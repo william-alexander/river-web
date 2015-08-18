@@ -6,10 +6,13 @@ for (var i = 0; i < queries.length; ++i) {
 
 	switch (pair[0]) {
 		case "server":
-			loginElem.elements.server.value = location.protocol+"//"+decodeURIComponent(pair[1]);
+			loginElem.elements.server.value = pair[1];
 			break;
 		case "port":
 			loginElem.elements.port.value = parseInt(decodeURIComponent(pair[1]));
+			break;
+		case "protocol":
+			loginElem.elements.protocol.value = pair[1];
 			break;
 	}
 }
@@ -34,7 +37,7 @@ var auth;
 var url;
 
 loginElem.onsubmit = function() {
-	url = new URL(loginElem.elements.server.value);
+	url = new URL(loginElem.elements.protocol.value+"://"+loginElem.elements.server.value);
 	url.port = parseInt(loginElem.elements.port.value)
 	url.password = loginElem.elements.password.value;
 	auth = "Basic " + btoa(":"+loginElem.elements.password.value);
@@ -90,7 +93,6 @@ function onsongsload() {
 }
 
 function load(index) {
-	audioElem.classList.remove("active");
 	document.title = titleOrPath(songs[index]);
 
 	audioElem.onended = function() {
@@ -121,9 +123,10 @@ document.getElementById("search").oninput = function() {
 
 	if (empty && value !== "") {
 		scrollTop = songsElem.scrollTop;
-		songsElem.scrollTop = 0;
 		empty = false;
 	}
+
+	songsElem.scrollTop = 0;
 	
 	for (var i = 0; i < songs.length; ++i) {
 		if ((matchFold(songs[i].title, value) ||

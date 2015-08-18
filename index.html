@@ -10,9 +10,22 @@
 	</head>
 	<body>
 		<form id="login" class="active login">
-			<input name="server" type="text" placeholder="Server">
-			<input name="port" type="number" value="21313" placeholder="Port">
-			<input name="password" type="password" placeholder="Password">
+			<label>Server
+				<input name="server" type="text" required></label>
+			<label>Port
+				<input name="port" type="number" value="21313"" required></label>
+			<label>
+				HTTPS
+				<input name="protocol" type="radio" value="https" checked>
+			</label>
+			<label>
+				HTTP
+				<input name="protocol" type="radio" value="http">
+			</label>
+			<label>
+				Password
+				<input name="password" type="password" required>
+			</label>
 			<input type="submit" value="Submit">
 		</form>
 		<audio id="audio" class="audio" controls>
