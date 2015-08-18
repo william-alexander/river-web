@@ -113,8 +113,21 @@ function matchFold(a, b) {
 	return a.toLowerCase().indexOf(b.toLowerCase()) !== -1;
 }
 
+var scrollTop;
+var empty = true;
+
 document.getElementById("search").oninput = function() {
 	var value = this.value;
+
+	if (empty && value !== "") {
+		scrollTop = songsElem.scrollTop;
+		songsElem.scrollTop = 0;
+		empty = false;
+	} else if (!empty && value === "") {
+		songsElem.scrollTop = scrollTop;
+		empty = true;
+		return;
+	}
 
 	for (var i = 0; i < songs.length; ++i) {
 		if ((matchFold(songs[i].title, value) ||
