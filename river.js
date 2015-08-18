@@ -126,7 +126,6 @@ document.getElementById("search").oninput = function() {
 	} else if (!empty && value === "") {
 		songsElem.scrollTop = scrollTop;
 		empty = true;
-		return;
 	}
 
 	for (var i = 0; i < songs.length; ++i) {
