@@ -7,11 +7,12 @@ Usage
 -----
 
 The client is hosted at wwalexander.github.io/river-web. You can access it there
-or host the client yourself if you wish. Note that the protocol (`http/https`)
-of the client must match that of the River server (e.g. if the River server you
-are connecting to uses `http`, the client must also use `http`).
+or host the client yourself if you wish. If the server you are connected to uses
+unencrypted HTTP, the browser client must be access via unencrypted HTTP as
+well.
 
-The server to connect to is specified in the URL. For instance, if the River
-server was running on `www.mydomain.com` via `https` and was accessible through
-port 21313, it could be accessed at
-https://wwalexander.github.io/river-web/#www.mydomain.com:21313.
+The server and port to connect to can be prepopulated via URL parameters. For
+instance,
+`https://wwalexander.github.io/river-web/?server=mydomain.com&port=47871` would
+pre-populate the Server field with `https://mydomain.com` and the Port field
+with `47871`.
