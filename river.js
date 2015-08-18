@@ -123,11 +123,8 @@ document.getElementById("search").oninput = function() {
 		scrollTop = songsElem.scrollTop;
 		songsElem.scrollTop = 0;
 		empty = false;
-	} else if (!empty && value === "") {
-		songsElem.scrollTop = scrollTop;
-		empty = true;
 	}
-
+	
 	for (var i = 0; i < songs.length; ++i) {
 		if ((matchFold(songs[i].title, value) ||
 			matchFold(songs[i].artist, value) ||
@@ -137,6 +134,12 @@ document.getElementById("search").oninput = function() {
 			songElems[i].classList.add("exclude");
 		}
 	}
+
+	if (!empty && value === "") {
+		songsElem.scrollTop = scrollTop;
+		empty = true;
+	}
+
 };
 
 reloadElem.onclick = function() {
