@@ -26,6 +26,10 @@ input {
 	z-index: 1;
 }
 
+.login, .song {
+	padding: 5px;
+}
+
 .login.active {
 	display: initial;
 }
@@ -51,7 +55,6 @@ input {
 	cursor: default;
 	border-top: 1px solid;
 	border-bottom: 1px solid;
-	padding: 5px;
 }
 
 .song.exclude {
