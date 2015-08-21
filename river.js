@@ -36,8 +36,7 @@ if (audioElem.canPlayType(opusSourceElem.type) !== "") {
 var auth;
 var url;
 
-loginElem.onsubmit = function () {try {
-
+loginElem.onsubmit = function() {
 	url = new URL(loginElem.elements.protocol.value + "://" + loginElem.elements.server.value);
 	url.port = parseInt(loginElem.elements.port.value)
 	url.password = loginElem.elements.password.value;
@@ -54,11 +53,6 @@ loginElem.onsubmit = function () {try {
 
 	loginElem.elements.submit.setAttribute("disabled", "true");
 	xhr.send();
-
-}
-	catch (ex) {
-		console.log(ex);
-	}
 	return false;
 };
 
