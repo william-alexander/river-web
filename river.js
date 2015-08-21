@@ -36,16 +36,29 @@ if (audioElem.canPlayType(opusSourceElem.type) !== "") {
 var auth;
 var url;
 
-loginElem.onsubmit = function() {
-	url = new URL(loginElem.elements.protocol.value+"://"+loginElem.elements.server.value);
+loginElem.onsubmit = function () {try {
+
+	url = new URL(loginElem.elements.protocol.value + "://" + loginElem.elements.server.value);
 	url.port = parseInt(loginElem.elements.port.value)
 	url.password = loginElem.elements.password.value;
+	url.pathname = "/songs";
 	auth = "Basic " + btoa(":"+loginElem.elements.password.value);
 	var xhr = new XMLHttpRequest();
 	xhr.onload = onsongsload;
-	xhr.open("GET", new URL("/songs", url).toString());
+	xhr.open("GET", url.toString());
 	xhr.setRequestHeader("Authorization", auth);
+
+	xhr.onerror = function () {
+		loginElem.elements.submit.removeAttribute("disabled");
+	}
+
+	loginElem.elements.submit.setAttribute("disabled", "true");
 	xhr.send();
+
+}
+	catch (ex) {
+		console.log(ex);
+	}
 	return false;
 };
 
@@ -101,7 +114,7 @@ function load(index) {
 		load(next);
 	};
 
-	sourceElem.src = new URL("songs/"+songs[index].id+"."+ext, url).toString();
+	sourceElem.src = url.toString() + "/" + songs[index].id + "." + ext;
 	audioElem.load();
 	audioElem.classList.add("active");
 	audioElem.play();
@@ -149,7 +162,18 @@ reloadElem.onclick = function() {
 	reloadElem.setAttribute("disabled", true);
 	var xhr = new XMLHttpRequest();
 	xhr.onload = onsongsload;
-	xhr.open("PUT", loginElem.elements.server.value+"/songs");
+
+	xhr.onerror = function() {
+		reloadElem.removeAttribute("disabled");
+	};
+
+	console.log()
+	xhr.open("PUT", url.toString());
 	xhr.setRequestHeader("Authorization", auth);
+
+	while (songsElem.firstChild) {
+		songsElem.removeChild(songsElem.firstChild);
+	}
+
 	xhr.send();
 };
