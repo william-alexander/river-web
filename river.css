@@ -44,6 +44,8 @@ input {
 }
 
 .songs {
+	background: black;
+
 	-webkit-flex: 1;
 	flex: 1;
 
@@ -52,9 +54,10 @@ input {
 }
 
 .song {
+	background: white;
 	cursor: default;
-	border-top: 1px solid;
-	border-bottom: 1px solid;
+	margin-top: 2px;
+	margin-bottom: 2px;
 }
 
 .song.exclude {
