@@ -10,23 +10,27 @@
 	</head>
 	<body>
 		<form id="login" class="active login">
-			<label>Server
-				<input name="server" type="text" required></label>
-			<label>Port
-				<input name="port" type="number" value="21313" required></label>
-			<label>
-				HTTPS
-				<input name="protocol" type="radio" value="https" checked>
-			</label>
-			<label>
-				HTTP
-				<input name="protocol" type="radio" value="http">
-			</label>
-			<label>
-				Password
-				<input name="password" type="password" required>
-			</label>
-			<input name="submit" type="submit" value="Submit">
+			<fieldset id="login-fieldset">
+				<label>Server
+					<input name="server" type="text" required>
+				</label>
+				<label>Port
+					<input name="port" type="number" value="21313" required>
+				</label>
+				<label>
+					HTTPS
+					<input name="protocol" type="radio" value="https" checked>
+				</label>
+				<label>
+					HTTP
+					<input name="protocol" type="radio" value="http">
+				</label>
+				<label>
+					Password
+					<input name="password" type="password" required>
+				</label>
+				<input name="submit" type="submit" value="Submit">
+			</fieldset>
 		</form>
 		<audio id="audio" class="audio" controls>
 			<source id="opus" type='audio/ogg; codecs="opus"'>

@@ -33,6 +33,7 @@ if (audioElem.canPlayType(opusSourceElem.type) !== "") {
 	alert("No supported audio types");
 }
 
+var loginFieldsetElem = document.getElementById("login-fieldset");
 var auth;
 var url;
 
@@ -48,10 +49,10 @@ loginElem.onsubmit = function() {
 	xhr.setRequestHeader("Authorization", auth);
 
 	xhr.onerror = function () {
-		loginElem.elements.submit.removeAttribute("disabled");
+		loginFieldsetElem.removeAttribute("disabled");
 	}
 
-	loginElem.elements.submit.setAttribute("disabled", "true");
+	loginFieldsetElem.setAttribute("disabled", "true");
 	xhr.send();
 	return false;
 };

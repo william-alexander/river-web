@@ -26,10 +26,6 @@ input {
 	z-index: 1;
 }
 
-.login, .song {
-	padding: 5px;
-}
-
 .login.active {
 	display: initial;
 }
