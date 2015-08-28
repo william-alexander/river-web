@@ -125,32 +125,35 @@ function matchFold(a, b) {
 
 var scrollTop;
 var empty = true;
+var timer;
 
-document.getElementById("search").oninput = function() {
+document.getElementById("search").oninput = function () {
+	clearTimeout(timer);
 	var value = this.value;
-
-	if (empty && value !== "") {
-		scrollTop = songsElem.scrollTop;
-		empty = false;
-	}
-
-	songsElem.scrollTop = 0;
 	
-	for (var i = 0; i < songs.length; ++i) {
-		if ((matchFold(songs[i].title, value) ||
-			matchFold(songs[i].artist, value) ||
-			matchFold(songs[i].album, value))) {
-			songElems[i].classList.remove("exclude");
-		} else {
-			songElems[i].classList.add("exclude");
+	timer = setTimeout(function () {
+		if (empty && value !== "") {
+			scrollTop = songsElem.scrollTop;
+			empty = false;
 		}
-	}
 
-	if (!empty && value === "") {
-		songsElem.scrollTop = scrollTop;
-		empty = true;
-	}
+		songsElem.scrollTop = 0;
 
+		for (var i = 0; i < songs.length; ++i) {
+			if ((matchFold(songs[i].title, value) ||
+				matchFold(songs[i].artist, value) ||
+				matchFold(songs[i].album, value))) {
+				songElems[i].classList.remove("exclude");
+			} else {
+				songElems[i].classList.add("exclude");
+			}
+		}
+
+		if (!empty && value === "") {
+			songsElem.scrollTop = scrollTop;
+			empty = true;
+		}
+	}, 200);
 };
 
 reloadElem.onclick = function() {
