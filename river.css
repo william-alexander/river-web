@@ -39,6 +39,9 @@ input {
 }
 
 .login-label {
+	-webkit-align-items: center;
+	align-items: center;
+
 	display: -webkit-flex;
 	display: flex;
 }
