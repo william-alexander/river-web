@@ -3,9 +3,68 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="river.css">
 		<link rel="icon" href="favicon.ico">
 		<link rel="apple-touch-icon" href="apple-touch-icon.png">
+		<style>
+html, body {
+	height: 100%;
+}
+
+body {
+	font-family: sans-serif;
+	display: -webkit-flex;
+	display: flex;
+
+	-webkit-flex-direction: column;
+	flex-direction: column;
+
+	margin: 0;
+}
+
+input {
+	font-size: 16px;
+}
+
+.login {
+	background: white;
+	display: none;
+	height: 100%;
+	position: fixed;
+	width: 100%;
+	z-index: 1;
+}
+
+.login.active {
+	display: initial;
+}
+
+.login-fieldset {
+	display: -webkit-flex;
+	display: flex;
+
+	-webkit-flex-direction: column;
+	flex-direction: column;
+}
+
+.login-label {
+	-webkit-align-items: center;
+	align-items: center;
+
+	display: -webkit-flex;
+	display: flex;
+}
+
+.login-input {
+	-webkit-flex: 1;
+	flex: 1;
+
+	margin-left: 0.25em;
+}
+
+.login-submit {
+	width: 100%;
+}
+		</style>
 		<title>River</title>
 	</head>
 	<body>
@@ -42,6 +101,7 @@
 		<input id="search" type="search" placeholder="Search">
 		<input id="reload" type="button" value="Reload" disabled>
 		<div id="songs" class="songs"></div>
+		<link rel="stylesheet" href="river.css">
 		<script src="river.js"></script>
 	</body>
 </html>
