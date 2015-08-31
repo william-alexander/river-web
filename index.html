@@ -12,6 +12,7 @@ html, body {
 
 body {
 	font-family: sans-serif;
+
 	display: -webkit-flex;
 	display: flex;
 
@@ -34,16 +35,19 @@ input {
 	z-index: 1;
 }
 
-.login.active {
-	display: initial;
-}
 
-.login-fieldset {
+.fieldset {
 	display: -webkit-flex;
 	display: flex;
 
 	-webkit-flex-direction: column;
 	flex-direction: column;
+
+	border: none;
+}
+
+.login.active {
+	display: initial;
 }
 
 .login-label {
@@ -69,7 +73,7 @@ input {
 	</head>
 	<body>
 		<form id="login" class="active login">
-			<fieldset id="login-fieldset" class="login-fieldset">
+			<fieldset id="login-fieldset" class="fieldset">
 				<label class="login-label">Server
 					<input class="login-input" name="server" type="text" required>
 				</label>
@@ -98,8 +102,10 @@ input {
 			<source id="opus" type='audio/ogg; codecs="opus"'>
 			<source id="mp3" type='audio/mpeg; codecs="mp3"'>
 		</audio>
-		<input id="search" type="search" placeholder="Search">
-		<input id="reload" type="button" value="Reload" disabled>
+		<fieldset id="fieldset" class="postlogin-fieldset fieldset">
+			<input id="search" type="search" placeholder="Search">
+			<input id="reload" type="button" value="Reload">
+		</fieldset>
 		<div id="songs" class="songs"></div>
 		<link rel="stylesheet" href="river.css">
 		<script src="river.js"></script>

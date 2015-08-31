@@ -7,6 +7,17 @@
 	display: initial;
 }
 
+.postlogin-fieldset {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: row;
+}
+
+.postlogin-fieldset > * {
+	width: 100%;
+}
+
 .songs {
 	background: black;
 

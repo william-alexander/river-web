@@ -44,14 +44,15 @@ loginElem.onsubmit = function() {
 	url.pathname = "/songs";
 	auth = "Basic " + btoa(":"+loginElem.elements.password.value);
 	var xhr = new XMLHttpRequest();
-	xhr.onload = onsongsload;
 	xhr.open("GET", url.toString());
 	xhr.setRequestHeader("Authorization", auth);
 
-	xhr.onerror = function () {
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState != 4) return;
 		loginFieldsetElem.removeAttribute("disabled");
 	}
-
+	
+	xhr.onload = onsongsload;
 	loginFieldsetElem.setAttribute("disabled", "true");
 	xhr.send();
 	return false;
@@ -72,7 +73,6 @@ var songs;
 
 function onsongsload() {
 	if (this.status != 200) return;
-	reloadElem.removeAttribute("disabled");
 	loginElem.classList.remove("active");
 	songs = JSON.parse(this.responseText);
 	songElems = [];
@@ -156,18 +156,21 @@ document.getElementById("search").oninput = function () {
 	}, 200);
 };
 
+var fieldsetElem = document.getElementById("fieldset");
+
 reloadElem.onclick = function() {
-	reloadElem.setAttribute("disabled", true);
+	fieldsetElem.setAttribute("disabled", "true");
 	var xhr = new XMLHttpRequest();
-	xhr.onload = onsongsload;
 
-	xhr.onerror = function() {
-		reloadElem.removeAttribute("disabled");
-	};
+	xhr.onreadystatechange = function() {
+		console.log(xhr.readyState);
+		if (xhr.readyState != 4) return;
+		fieldsetElem.removeAttribute("disabled");
+	}
 
-	console.log()
 	xhr.open("PUT", url.toString());
 	xhr.setRequestHeader("Authorization", auth);
+	xhr.onload = onsongsload;
 
 	while (songsElem.firstChild) {
 		songsElem.removeChild(songsElem.firstChild);
